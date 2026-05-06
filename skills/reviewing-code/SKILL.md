@@ -37,7 +37,7 @@ For each check below, you must:
 2. **Update the tracking document** with your findings for this specific check. For every issue found, you MUST use the following structured template to ensure all necessary context is preserved for the final output phase:
    ```markdown
    - **File:** `path/to/file.ext` (Lines X-Y)
-   - **Severity:** [BLOCKER | SUGGESTION | QUESTION]
+   - **Severity:** [BLOCKER | SUGGESTION | QUESTION | FYI]
    - **Context/Snippet:** (Brief code snippet or context explaining the state of the codebase here)
    - **Observation:** (Factual statement of what the code is currently doing)
    - **Alternative:** (Specific technical modification required, with exact code if possible)
@@ -68,11 +68,12 @@ For each check below, you must:
 - [ ] **Check 10: Idiomatic Primitives & Compile-Time Guarantees**
 - [ ] **Check 11: Hunt for "Belt and Suspenders" Anti-Patterns**
 - [ ] **Check 12: Scrutinize Overengineering & "Just in Case" Code**
+- [ ] **Check 13: Dead Code & Orphaned Artifacts**
 
 **Phase 4: Verification & Docs**
-- [ ] **Check 13: Test Rigor**
-- [ ] **Check 14: Comment Accuracy & Intent Documentation**
-- [ ] **Check 15: Omissions (The Ghost Code)**
+- [ ] **Check 14: Test Rigor**
+- [ ] **Check 15: Comment Accuracy & Intent Documentation**
+- [ ] **Check 16: Omissions (The Ghost Code)**
 
 ## Output & Finalization Phase
 1. **Synthesize & Regroup:** Once all checks are complete, synthesize the findings from your tracking document into a cohesive code review. **You MUST reorganize your findings to be grouped by File and Line Number.** Do not present the final review grouped by the procedural phases or check numbers used during analysis.
@@ -100,3 +101,4 @@ For each check below, you must:
 - **Exploratory Empowerment:** Do not hesitate to read related files (interfaces, parent classes, utility definitions, or consuming modules) if you need them to verify the correctness of the PR. It is always better to pull in relevant context than to guess or assume.
 - **Parallel Context Gathering:** Utilize available tools (e.g., file reading, grep) concurrently to build context rapidly without excessive turns.
 - **Surgical Inspection:** When exploring, read smartly. Minimize token usage by using grep or reading specific line ranges when dealing with large files, rather than pulling in massive files in their entirety just to check a single signature.
+ection:** When exploring, read smartly. Minimize token usage by using grep or reading specific line ranges when dealing with large files, rather than pulling in massive files in their entirety just to check a single signature.

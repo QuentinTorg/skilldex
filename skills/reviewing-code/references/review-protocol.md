@@ -9,7 +9,13 @@ Search the workspace for relevant design documents, Architecture Decision Record
 Identify if the changes alter public-facing APIs, database schemas, serialized data formats, or persistent storage. If so, rigorously verify that the change is backward compatible. If it introduces a breaking change, ensure that a clear migration path, versioning strategy, or deprecation plan is included and well-documented to prevent breaking downstream clients.
 
 ## 3. Dependency & Supply Chain Scrutiny
-If dependency files (e.g., `package.json`, `requirements.txt`, `Cargo.toml`, `go.mod`) are modified, explicitly evaluate the new dependencies. Ask: Is this library necessary? Can we use standard library features or existing workspace utilities instead? Does it introduce unnecessary bloat? Are there known security, maintenance, or licensing issues associated with it?
+If dependency files (e.g., `package.json`, `requirements.txt`, `Cargo.toml`, `go.mod`) are modified, explicitly evaluate the new dependencies using the following discipline matrix:
+1. **Necessity:** Can the standard library or existing utilities solve this? (Prefer existing solutions).
+2. **Impact:** What is the bundle size impact?
+3. **Maintenance:** Is the dependency actively maintained? (Check last commit, open issues).
+4. **Security:** Does it have known vulnerabilities?
+5. **License:** Is the license compatible with the project?
+Every new dependency is a liability; push back if it is not strictly justified.
 
 ## 4. Layering Violations & Separation of Concerns
 Evaluate whether functionality is implemented at the correct architectural layer. Core domain logic and data transformations should be deterministic and isolated from external state. Identify and hoist side effects (I/O, environmental access, process control) to the appropriate orchestration boundaries or infrastructure layers. Ensure components rely on dependency injection or higher-level coordination rather than initiating unauthorized external interactions from deep within the call stack.
@@ -43,15 +49,18 @@ Reject complex abstractions built for theoretical future flexibility or impossib
 - Is the author creating a generalized solution for a specific problem that doesn't actually exist yet?
 - Ensure the API and data structures remain strict and opinionated, favoring established conventions over "future-proof" ambiguity.
 
-## 13. Test Rigor
+## 13. Dead Code & Orphaned Artifacts
+After any refactoring or implementation change, explicitly hunt for code that is now unreachable or unused (e.g., old functions replaced by new ones, obsolete constants, or unused UI components). Explicitly list these orphaned artifacts in your review and ask the author to clean them up. Do not leave dead code lying around.
+
+## 14. Test Rigor
 Code without tests is incomplete. Ensure tests cover:
 - The happy path.
 - Known edge cases and boundary conditions.
 - Failure modes (e.g., network timeouts, invalid input).
 - Ensure tests actually *assert* correctness, not just execution.
 
-## 14. Comment Accuracy & Intent Documentation
+## 15. Comment Accuracy & Intent Documentation
 Ensure all code comments accurately reflect the current implementation. Verify that the code performs exactly what the comments describe. Actively protect against outdated comments (doc rot). Furthermore, insist that any complex or unintuitive code blocks are accompanied by comments clearly stating their *intent* (the "why"), serving as a reliable surrogate for future maintainers to understand the logic.
 
-## 15. Omissions (The Ghost Code)
+## 16. Omissions (The Ghost Code)
 Actively look for what is *missing* from the implementation. Did the author add a new enum variant but forget to update a match statement elsewhere? Did they add a feature but forget tests or documentation? Did they add a new API endpoint but forget to add authorization middleware?
