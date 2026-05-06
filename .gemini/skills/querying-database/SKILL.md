@@ -1,0 +1,68 @@
+---
+name: querying-database
+description: Queries the Epiphany Knowledge Database for information across topics, ingested documents, and daily notes. Use this when the user asks a direct question about past work, decisions, people, projects, or tasks. You are highly encouraged to use this proactively day-to-day while coding or problem-solving if you suspect relevant user-specific knowledge, architectural decisions, or custom documentation might be stored in the database to improve your context.
+---
+
+# Querying the Epiphany Knowledge Database
+
+This skill guides searching the Epiphany Knowledge Database to answer questions accurately and with citations. Queries are interactive; ask for clarification if ambiguous.
+
+## Contract & Conventions
+
+- **Database Location:** The Epiphany Knowledge Database defaults to a `epiphany_knowledge/` directory in the current workspace root. If you cannot find the Epiphany Knowledge Database, you MUST ask the user if they want to initialize it here or if it is located elsewhere.
+- **Global Context:** Always read the entirety of `epiphany_knowledge/context.md` (if it exists) first to establish a baseline understanding of the user's perspective, terminology, and relationships before executing a search. Do NOT modify this file.
+- **Indexes:** The database maintains the following index files as entrypoints:
+  - `epiphany_knowledge/indexes/topics-index.md`: A table of contents listing all the distilled subject summaries (Topics).
+  - `epiphany_knowledge/indexes/sources-index.md`: A table of contents listing all the raw imported documents and URLs that have been parsed.
+  - `epiphany_knowledge/indexes/action-items.md`: A centralized checklist of all pending tasks.
+  - `epiphany_knowledge/indexes/open-questions.md`: A centralized checklist of all unresolved questions and conflicts.
+- **Research Strategies:** Choose the best research strategy for the query:
+  1. **Task & Question Queries:** If the query is about "tasks", "to-dos", "action items", or "open questions", immediately read the centralized `action-items.md` or `open-questions.md` index files.
+  2. **Progressive Disclosure (Top-Down):** Start at `topics-index.md` to find Topic files, read Topics, and follow links to raw sources only if needed. Best for broad, conceptual queries.
+  3. **Text Search / Grep (Bottom-Up):** Full-text search across `epiphany_knowledge/`. Best for finding specific dates, names, or undiscovered mentions.
+  4. **Internet Search:** If the database lacks sufficient information to answer the user's query fully, or if you need to look up external concepts mentioned in the database, you are explicitly authorized to perform an internet search to supplement your answer.
+- **Scanning Summaries:** When opening a parsed file, read its `**Summary:**` first. Use it as an index to decide whether to read deeper or move on.
+- **Accuracy & Hallucinations:** Accuracy is key. You MUST NOT hallucinate facts. Information should be based strictly on a raw source of truth.
+- **Citations:** Every factual claim in your answer MUST include a citation pointing to the file that provided the information, formatted as a clickable relative Markdown link (e.g., `([Source](epiphany_knowledge/topics/project-alpha.md))`).
+- **Assumptions:** Explicitly label and justify any logical conclusions (e.g., "Assumption:" or "Logical Conclusion:").
+- **Outside Information:** If pulling information from outside resources, ask the user if it should be added to the Epiphany Knowledge Database.
+- **Interactivity:** If a query is unclear or yields no results, ask the user for clarification.
+
+## Workflow
+
+1. **Locate the Database:** Check if the Epiphany Knowledge Database exists. If not, prompt the user for permission to initialize the `epiphany_knowledge/` structure or ask if it is located elsewhere. When prompting for initialization, you MUST also ask the user to provide a brief description of themselves, their role, and their core priorities so you can create the initial `epiphany_knowledge/context.md` file. You are authorized to create this file during initialization, but you may not modify it afterwards.
+2. **Read Global Context:** Silently read `epiphany_knowledge/context.md` (if it exists) to ground yourself in the user's terminology and identity.
+3. **Check for Pending Knowledge:** Before querying, search the `epiphany_knowledge/parsed/` directory for any files containing the text `[PENDING]`. If pending files exist, you MUST immediately stop and prompt the user, asking if they would like you to run the `distilling-knowledge` skill to update the knowledge base before you attempt to answer their query. Do not proceed with the query until the user responds.
+4. **Determine Research Path:** Choose the best combination of strategies based on the query type (e.g., check `action-items.md` for tasks, or text search for specific names).
+5. **Explore & Synthesize:**
+   - Open the most relevant Topic files or search results.
+   - Follow relative links back to original `epiphany_knowledge/parsed/` files if deeper context is needed.
+   - When exploring `epiphany_knowledge/parsed/` files, read the `**Summary:**` at the top first to quickly map information.
+   - If you cannot find the answer, or if the request is ambiguous, stop and ask the user for clarification to help narrow the search.
+6. **Validate:**
+   - Ensure every factual claim has a corresponding citation.
+   - Verify that your citations are formatted as valid, clickable relative Markdown links.
+7. **Report:**
+   - Respond to the user using the strict formatting outlined in the "Assistant Persona & Response Format" section below.
+
+## Assistant Persona & Response Format
+
+Always format your response to the user using the following template. Ensure that all citations are clickable relative Markdown links (e.g., `([Source](epiphany_knowledge/topics/project-alpha.md))`).
+
+```markdown
+**Query Results**
+
+[Provide a concise, direct answer to the user's question here. Insert your citations inline right next to factual claims like this: ([Source](epiphany_knowledge/topics/project-alpha.md)).]
+
+[If you made any logical leaps or assumptions, explicitly list them here with "Assumption:" or "Logical Conclusion:"]
+
+### Outside Information
+[If you pulled outside knowledge not found in the database, explicitly ask the user if they want it added to the database here. Otherwise, omit this section.]
+```
+
+## Gotchas
+
+- **Balancing Strategies:** Balance your tools: text search may return noise for broad topics, while relying only on indexes may miss recent raw notes. Use your judgment.
+- **Time/Entity Questions:** For queries like "What did Billy work on?", check `billy.md` but also text-search recent notes for undiscovered facts.
+- **Contradictions:** If you find contradictory information, present both sides in your answer, citing both sources. Do not pick a "winner" unless a more recent source explicitly resolves the conflict.
+- **Answer Style:** Prefer concise answers over long narrative walkthroughs. Escalate from high-level topics into deeper evidence only when needed.
