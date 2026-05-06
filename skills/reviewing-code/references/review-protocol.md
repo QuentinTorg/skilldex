@@ -26,11 +26,13 @@ Trace the lifecycle of key variables. Look for boundary condition violations, un
 ## 6. State & Concurrency
 If the application is multi-threaded or highly asynchronous, ruthlessly analyze for data races, deadlocks, and unsafe mutable state sharing.
 
-## 7. Security
-Actively search for untrusted data sinks, access control flaws, credential exposure, and unsafe data processing or deserialization.
+## 7. Security & Boundary Trust
+Identify all "trust boundaries" in the PR where data enters from outside the immediate execution context. Actively search for untrusted data sinks, access control flaws, and credential exposure. Verify that structural integrity, type safety, and domain validation are enforced exactly at the perimeter before the data is allowed to interact with core logic or memory. Never trust external input.
 
-## 8. Systemic Resilience & Error Handling
-Verify that failures are handled gracefully and simulate system dynamics under stress. Evaluate resource constraints under load variations. Identify unbounded memory growth, broken backpressure mechanisms, and synchronous operations blocking asynchronous event loops. Ensure errors are routed with sufficient debugging context.
+## 8. Systemic Resilience, Scaling & Auditability
+- **Resilience:** Verify that failures are handled gracefully and simulate system dynamics under stress. Identify broken backpressure mechanisms, and synchronous operations blocking asynchronous event loops. 
+- **Resource Scaling:** Evaluate the code's behavior as data volume scales. Actively hunt for unbounded iterations, unconstrained data loading, and operations whose time or memory complexity degrades disproportionately relative to the input size.
+- **Auditability & Visibility:** Evaluate how the code communicates its internal state when things go wrong. Ensure critical state transitions and failure paths emit sufficient diagnostic signals without leaking sensitive operational configurations or user data across execution boundaries.
 
 ## 9. Redundancy & Factoring Check
 Actively scrutinize newly introduced functions or logic blocks for redundancy. Look for duplicated code within the same file, similar functionality in neighboring files, or existing shared logic elsewhere in the codebase. If a new block of logic could be factored out into a common utility or abstraction rather than reinventing the wheel, recommend doing so.
@@ -62,5 +64,5 @@ Code without tests is incomplete. Ensure tests cover:
 ## 15. Comment Accuracy & Intent Documentation
 Ensure all code comments accurately reflect the current implementation. Verify that the code performs exactly what the comments describe. Actively protect against outdated comments (doc rot). Furthermore, insist that any complex or unintuitive code blocks are accompanied by comments clearly stating their *intent* (the "why"), serving as a reliable surrogate for future maintainers to understand the logic.
 
-## 16. Omissions (The Ghost Code)
-Actively look for what is *missing* from the implementation. Did the author add a new enum variant but forget to update a match statement elsewhere? Did they add a feature but forget tests or documentation? Did they add a new API endpoint but forget to add authorization middleware?
+## 16. Omissions & Contract Parity
+Actively look for what is *missing* from the implementation. Evaluate the completeness of the change by considering the secondary effects of the primary logic modifications. If a core data structure, architectural boundary, or public interface is altered, you must verify that all downstream consumers, corresponding tests, and external contracts (such as consumer documentation or exported schemas) are updated to reflect the new reality. Identify unhandled edge cases, missing failure states, or incomplete feature footprints that leave the system in a partially implemented state.

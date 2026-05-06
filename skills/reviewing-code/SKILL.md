@@ -60,8 +60,8 @@ For each check below, you must:
 **Phase 2: Micro & Implementation**
 - [ ] **Check 5: Control & Data Flow**
 - [ ] **Check 6: State & Concurrency**
-- [ ] **Check 7: Security**
-- [ ] **Check 8: Systemic Resilience & Error Handling**
+- [ ] **Check 7: Security & Boundary Trust**
+- [ ] **Check 8: Systemic Resilience, Scaling & Auditability**
 
 **Phase 3: Code Health & Abstractions**
 - [ ] **Check 9: Redundancy & Factoring Check**
@@ -73,7 +73,7 @@ For each check below, you must:
 **Phase 4: Verification & Docs**
 - [ ] **Check 14: Test Rigor**
 - [ ] **Check 15: Comment Accuracy & Intent Documentation**
-- [ ] **Check 16: Omissions (The Ghost Code)**
+- [ ] **Check 16: Omissions & Contract Parity**
 
 ## Output & Finalization Phase
 1. **Synthesize & Regroup:** Once all checks are complete, synthesize the findings from your tracking document into a cohesive code review. **You MUST reorganize your findings to be grouped by File and Line Number.** Do not present the final review grouped by the procedural phases or check numbers used during analysis.
