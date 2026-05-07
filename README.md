@@ -4,6 +4,7 @@ A public collection of agent skills for daily use, along with a dedicated worksp
 
 ## Available Skills
 
+- **[building-skills](./skills/building-skills/)**: Mentors and guides users in creating, critiquing, reviewing, and improving agent skills using a rigorous, 6-step granular workflow.
 - **[reviewing-code](./skills/reviewing-code/)**: Use this skill whenever you need to review a Pull Request, branch, or perform a deep technical inspection of code. It guides the agent through a methodical, interactive review process.
 
 ## How to Use This Repository
@@ -63,13 +64,13 @@ Manually copy the contents of the `skills/` directory into your global or projec
 
 ## Developing Your Own Skills
 
-SkillDex is designed to be the perfect place to build and refine your skills. It includes an embedded knowledge base (`epiphany_knowledge/`) that the AI agent uses to mentor and guide you.
+SkillDex is designed to be the perfect place to build and refine your skills. It includes a dedicated **[building-skills](./skills/building-skills/)** skill and an embedded knowledge base (`epiphany_knowledge/`) that the AI agent uses to mentor and guide you.
 
 To start developing:
 1. Open this repository in your terminal.
 2. Start a session with your AI agent (e.g., Gemini CLI).
-3. Tell the agent: *"I want to create a new skill for [your use case]."*
-4. The agent will actively guide you through a structured, step-by-step procedure (documented in `AGENTS.md`), leveraging the knowledge base to ensure your skill is robust, well-described, and properly structured.
+3. If not already active, trigger the mentor skill: *"Activate the building-skills skill."*
+4. The agent will actively guide you through a rigorous, **6-step granular workflow** (documented in the skill and `AGENTS.md`), leveraging local best practice references to ensure your skill is robust, well-described, and properly structured.
 
 ## Linking Skills for Live Tuning
 
