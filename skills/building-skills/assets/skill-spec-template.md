@@ -16,7 +16,12 @@
 
 ## 4. Edge Cases & "Gotchas"
 - [List specific environment facts or constraints that defy reasonable assumptions, e.g., "The database uses soft deletes"]
-- [List known failure modes or agent rationalizations to bulletproof against]
+
+### Failure Analysis (If applicable)
+- **Reported Failure:** [What did the user say happened?]
+- **Actual vs. Expected:** [What did the previous agent actually do vs. what was the intended behavior?]
+- **Root Cause/Rationalization:** [Identify the underlying reason: e.g., vague instruction, tool hallucination, or rationalizing away a constraint]
+- **Generalization:** [How does this fix the *class* of problem for all users?]
 
 ## 5. Architecture & Progressive Disclosure Plan
 - **`SKILL.md` (Core Instructions):** [What goes here? Keep < 500 lines]
