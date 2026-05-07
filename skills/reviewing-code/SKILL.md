@@ -87,6 +87,7 @@ For each check below, you must:
    - **[BLOCKER]:** Bugs, security flaws, severe performance degradation. Must be fixed before merge.
    - **[SUGGESTION]:** Architectural improvements, readability enhancements.
    - **[QUESTION]:** Inquiries into the author's intent.
+   - **[FYI]:** Informational context about architectural side-effects. **Constraint:** Use this exceedingly sparingly. Only use `[FYI]` for high-value insights that impact future maintainability but require no immediate action. Do not use it for trivial observations or noise.
 4. **Draft the Overall Summary:** Draft the main PR review body. While inline comments are strictly technical, you should use a positive and collaborative tone here to foster a good team dynamic. This summary should:
    - Explain *why* the PR is passing or failing overall.
    - Provide an overall impression of the structural and architectural changes, highlighting at least one structural positive before delivering critiques.
