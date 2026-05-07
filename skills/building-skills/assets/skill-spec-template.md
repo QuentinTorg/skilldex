@@ -27,3 +27,33 @@
 ## 6. Testing & Assertions (Eval-Driven)
 - **Test Scenarios:** [Define 2-3 realistic pressure scenarios to test]
 - **Assertions:** [Define objectively verifiable success criteria, e.g., "Output is valid JSON"]
+
+---
+
+## 7. Implementation Checklist (Progress Tracking)
+### Step 1: Collaborative Requirements & Scope Gathering
+- [ ] **Objective:** Deeply understand the intended skill, background, workflow, and edge cases.
+- [ ] **Action:** Engage in multiple conversational turns to draw out context.
+- [ ] **Documentation:** Initialize/Update this `skill-spec.md`.
+
+### Step 2: Architecture & Progressive Disclosure Planning
+- [ ] **Reference Grounding:** Consult `skill-specification.md`.
+- [ ] **Action:** Map out `SKILL.md` vs. `references/`, `assets/`, and `scripts/`.
+- [ ] **Checkpoint:** Get user approval for the architecture map.
+
+### Step 3: Metadata & Trigger Design
+- [ ] **Reference Grounding:** Consult `skill-description-optimization.md`.
+- [ ] **Action:** Write the YAML frontmatter (gerund name + trigger-based description).
+
+### Step 4: Resource Implementation
+- [ ] **Reference Grounding:** Consult `skill-scripts-and-environments.md`.
+- [ ] **Action:** Implement `references/`, `assets/`, and `scripts/` first.
+
+### Step 5: Core Instruction Drafting
+- [ ] **Reference Grounding:** Consult `skill-creation-best-practices.md`.
+- [ ] **Action:** Write the `SKILL.md` body, linking to Step 4 resources.
+
+### Step 6: Final Audit & Generality Check
+- [ ] **Action:** Read the complete skill package.
+- [ ] **Generality Review:** Ensure language is generic and not overfit to examples.
+- [ ] **Specification Sync:** Ensure this `skill-spec.md` matches the final implementation.

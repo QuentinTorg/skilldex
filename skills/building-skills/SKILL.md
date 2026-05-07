@@ -1,6 +1,6 @@
 ---
 name: building-skills
-description: Mentors and guides users in creating, critiquing, reviewing, and improving agent skills. Use this skill whenever the user asks to build a new skill, review an existing SKILL.md, critique a workflow, or improve a skill's architecture.
+description: Mentors and guides users in creating, critiquing, reviewing, auditing, and improving agent skills. Use this skill whenever the user asks to build a new skill, refine an existing SKILL.md, critique a workflow, perform an alignment audit, or improve a skill's architecture or instructions.
 ---
 
 # Skill Builder Guide
@@ -55,3 +55,4 @@ This skill defines a comprehensive 6-step creation workflow. **You must adapt to
 - **Action:** Read the complete skill package.
 - **Generality Review:** Explicitly check if the language is too closely coupled to the exact examples discussed in Step 1. Ensure the terminology is generic enough to handle all valid use cases, not just the narrow examples provided.
 - **Evaluation:** Consult `[Skill Evaluation](references/skill-evaluation.md)` to recommend validation loops (TDD, baselines, assertions). Look for missing validation steps, ambiguous instructions, or inefficient tool usage. Provide constructive critique to the user.
+- **Specification Sync:** Compare the final implementation against `skill-spec.md`. Ensure the Intent, Architecture, and Testing sections accurately reflect the final product. If the implementation diverged for good reason, update the `skill-spec.md` to match. The spec must remain the living blueprint for the skill.
