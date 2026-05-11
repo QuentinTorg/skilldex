@@ -25,7 +25,7 @@ You have full liberty and a MANDATE to reword user feedback. You MUST NOT copy-p
    - [ ] **Step 3: Metadata & Trigger Design** - Write the YAML frontmatter (gerund name + trigger-based description).
    - [ ] **Step 4: Resource Implementation** - Implement `references/`, `assets/`, and `scripts/` FIRST.
    - [ ] **Step 5: Core Instruction Drafting** - Write the `SKILL.md` body, linking to Step 4 resources.
-   - [ ] **Step 6: Final Audit & Generality Check** - Perform a Structural & Cohesion Audit across all files and ensure the `skill-spec.md` is synced.
+   - [ ] **Step 6: Final Audit & Generality Check** - Perform a Structural & Cohesion Audit across all files and ensure the `.specs/[skill-name]-spec.md` is synced.
 
 ## Workflow Flexibility
 
@@ -45,13 +45,13 @@ This phase is **ALWAYS** required. You must establish a shared understanding of 
 
 **Crucially:** If at any point the user provides corrections or disagrees with your understanding, you MUST treat it as a discovery pivot and continue the collaborative questioning until alignment is reached.
 
-- **Documentation (Post-Interview):** Do NOT prematurely write the spec. ONLY once you have gathered all necessary context through the interview, initialize or update a `skill-spec.md` document inside the directory using the exact structure found in `[assets/skill-spec-template.md](assets/skill-spec-template.md)`. Ensure any reported failures or newly identified edge cases are documented in the spec's "Edge Cases & Gotchas" section.
+- **Documentation (Post-Interview):** Do NOT prematurely write the spec. ONLY once you have gathered all necessary context through the interview, initialize or update a `[skill-name]-spec.md` document inside the parallel `skills/.specs/` directory using the exact structure found in `[assets/skill-spec-template.md](assets/skill-spec-template.md)`. **CRITICAL:** The `.specs/` directory is a sibling to the individual skill directories, not a child of them. Do NOT place the spec inside the skill folder, and NEVER link to the `skills/.specs/` directory from within the `SKILL.md` file. Ensure any reported failures or newly identified edge cases are documented in the spec's "Edge Cases & Gotchas" section.
 
 ## Step 2: Architecture & Progressive Disclosure Planning
 
 - **Reference Grounding:** Consult `[Skill Specification](references/skill-specification.md)`. Pay special attention to the dangers of `@` links and deep nesting.
-- **Action:** Decide *where* information should live to prevent context bloat. Update the `skill-spec.md` to explicitly map out what goes in the main `SKILL.md` (high-level workflow) versus what must be split into `references/` (detailed guidelines), `assets/` (concrete templates), or `scripts/`.
-- **Checkpoint (User Approval):** Explicitly stop and ask the user for approval of the finalized `skill-spec.md` architecture map. **You MUST NOT write the `SKILL.md` or scripts until approved.**
+- **Action:** Decide *where* information should live to prevent context bloat. Update the `skills/.specs/[skill-name]-spec.md` to explicitly map out what goes in the main `SKILL.md` (high-level workflow) versus what must be split into `references/` (detailed guidelines), `assets/` (concrete templates), or `scripts/`.
+- **Checkpoint (User Approval):** Explicitly stop and ask the user for approval of the finalized `skills/.specs/[skill-name]-spec.md` architecture map. **You MUST NOT write the `SKILL.md` or scripts until approved.**
 
 ## Step 3: Metadata & Trigger Design
 
@@ -84,4 +84,5 @@ This phase is **ALWAYS** required. You must establish a shared understanding of 
   - **Scattered Context:** Are related rules spread across multiple files instead of centralized?
 - **Generality Review:** Explicitly check if the language is too closely coupled to the exact examples discussed in Step 1. Ensure the terminology is generic enough to handle all valid use cases, not just the narrow examples provided.
 - **Evaluation:** Consult `[Skill Evaluation](references/skill-evaluation.md)` to recommend validation loops (TDD, baselines, assertions). Look for missing validation steps, ambiguous instructions, or inefficient tool usage. Provide constructive critique to the user.
-- **Specification Sync:** Compare the final implementation against `skill-spec.md`. Ensure the Intent, Architecture, and Testing sections accurately reflect the final product. If the implementation diverged for good reason, update the `skill-spec.md` to match. The spec must remain the living blueprint for the skill.
+- **Specification Sync:** Compare the final implementation against `skills/.specs/[skill-name]-spec.md`. Ensure the Intent, Architecture, and Testing sections accurately reflect the final product. If the implementation diverged for good reason, update the `skills/.specs/[skill-name]-spec.md` to match. The spec must remain the living blueprint for the skill.
+ills/.specs/[skill-name]-spec.md` to match. The spec must remain the living blueprint for the skill.
