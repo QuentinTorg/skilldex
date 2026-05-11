@@ -38,9 +38,4 @@ Creating effective Agent Skills requires grounding instructions in real expertis
 - **Semantic Naming:** Avoid generic labels (e.g., `helper1`, `step3`). Use names with semantic meaning.
 
 ## Iteration and Testing (Eval-Driven Loop)
-Creating a robust skill requires a rigorous Test-Driven Development (TDD) loop. *No skill should be built without a failing test first.*
-1. **Draft Test Cases:** Before writing the core instructions, define 2-3 realistic "pressure scenarios" (test cases) that a real user would type. Save these along with objectively verifiable *assertions* (e.g., "The output is valid JSON", "The chart has an X-axis").
-2. **Run the Baseline (RED Phase):** Run the test cases without the skill (or with the old version, if improving). Document where the agent fails or wastes time.
-3. **Draft the Skill (GREEN Phase):** Write the minimal instructions needed to pass the assertions.
-4. **Compare & Refactor (REFACTOR Phase):** Run the test cases *with* the new skill. Calculate the delta in pass rate, token usage, and time between the baseline and the new skill. Refactor the skill based on failures, focusing on generalizing the feedback rather than overfitting.
-   - *Tip:* If execution logs show the agent repeatedly writing the same helper logic (e.g., `create_chart.py`) across different test cases, bundle that logic into `scripts/` to save tokens.
+Creating a robust skill requires a rigorous Test-Driven Development (TDD) loop. *No skill should be built without a failing test first.* For the complete mechanical workflow (RED/GREEN/REFACTOR phases) and how to validate with LLMs, consult `[Skill Evaluation](skill-evaluation.md)`.
