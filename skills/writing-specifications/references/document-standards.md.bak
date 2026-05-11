@@ -1,0 +1,60 @@
+# Architectural Document Standards
+
+As an expert technical writer and architect, you must use these concrete standards to structure your outlines and draft your content. 
+
+## 0. The Purpose of a Specification Document
+Before writing a single word, you must understand *why* these documents exist:
+1. **To serve as a formalized blueprint** that an autonomous agent or human engineer can confidently use to generate an implementation plan and write code.
+2. **To define guardrails and constraints** so that future developers do not have to guess the original intent or accidentally break the architecture when modifying the system.
+3. **To establish a shared contract** between different components, teams, or services, ensuring that everyone agrees on how the pieces fit together before any code is written.
+4. **To provide a black-box understanding** so that users, integrators, or cross-functional teams can understand what a component does and how to interface with it without ever having to read the underlying source code.
+
+---
+
+## 1. Core Architectural Philosophies
+Before proposing any outline, ensure it adheres to these principles:
+- **Design by Contract:** Focus heavily on the *seams* between components (APIs, data payloads, state transitions). Exclude internal helper functions or specific algorithms.
+- **The "Onion" Architecture:** Organize from High-Level (The "Why") down to Low-Level (The "How"). Let readers stop early if they only need context.
+- **Separation of Concerns:** If a document takes more than 15 minutes to read, or targets vastly different audiences (e.g., Frontend devs vs. DevOps), it MUST be split into multiple documents.
+- **Resist Code Rot:** Never include highly volatile information (like specific UI button names or internal function signatures). Provide the guardrails and the historical context for constraints so future engineers understand the original intent.
+
+---
+
+## 2. Standard Document Structures (The Blueprint)
+When proposing an outline in Phase 2, use these standard structures as your baseline, adapting them to the user's specific needs.
+
+### A. The Top-Level System Specification
+*Purpose: The hub for the entire system, aimed at PMs, architects, and anyone new to the project.*
+- **System Overview:** 2-3 sentences explaining what the system is.
+- **Core Objectives & Non-Goals:** What it MUST do, and explicitly what it MUST NOT do (to prevent scope creep).
+- **Documentation Index:** Links to all component-specific specs.
+- **High-Level Architecture:** A list of the core components and their responsibilities.
+- **System Boundaries & Dependencies:** External systems, hardware, or third-party APIs this system relies on.
+- **Data Flow / Transport:** High-level description of how data moves through the system.
+- **Open Questions / Future Considerations:** Known unknowns.
+
+### B. The Component Specification
+*Purpose: Detailed design for a single executable, microservice, or isolated library.*
+- **Component Overview:** What this specific piece does.
+- **Execution Model / Lifecycle:** Is it a long-running daemon, a cron job, a stateless web server, an event-driven worker?
+- **Responsibilities & Constraints:** What it manages, and strict guardrails on what it is forbidden from doing.
+- **Internal Task Architecture:** (Optional) If concurrent, how do its internal loops or threads divide the work?
+- **Data Storage / State:** Where it reads/writes its state (e.g., ephemeral memory, Postgres, local disk).
+
+### C. The API / Interface Specification
+*Purpose: The contract for how components talk to each other.*
+- **Overview:** The transport protocol (e.g., REST, WebRTC, gRPC, DBus).
+- **Authentication & Security:** How clients prove who they are.
+- **Endpoints / Channels:** 
+  - For REST: HTTP Verb, Route, Purpose.
+  - For Events: Topic name, Publisher, Subscriber.
+- **Payload Schemas:** Abstract representations of the data (e.g., "A JSON object containing X, Y, Z"). Do NOT write full implementation code unless defining a strict protobuf/JSON schema.
+- **Error Handling:** What happens when things fail (e.g., standard HTTP codes, timeout behaviors).
+
+---
+
+## 3. Actionable Drafting Rules
+When you are actually writing the markdown text in Phase 3, follow these strict stylistic rules:
+1. **Be Concise:** Use bullet points and short sentences. Avoid rambling narrative paragraphs.
+2. **Use Emphasis:** **Bold** key terms and concepts so the document is easy to skim.
+3. **Abstract Implementation:** If you find yourself writing `function do_thing(a, b) { ... }`, STOP. Write the *goal* of the function instead. Explain the contract, not the code.
