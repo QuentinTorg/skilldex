@@ -34,7 +34,7 @@ You MUST copy the following checklist into your internal reasoning/scratchpad. C
 
 ### [ ] Phase 1: Discovery & Brainstorming
 *Do NOT write design documents in this phase. Treat this as an architectural interview.*
-1. Digest the user's raw notes or ideas.
+1. Digest the user's raw notes, ideas, or provided reference documents. **CRITICAL:** If the user provides existing reference documents, do NOT assume you can skip to drafting. Treat them as background context and proceed with the interview to brainstorm the *new* organization.
 2. Probe for the following mandatory information (ask sequentially over multiple turns if necessary; do not overwhelm the user):
    - **Primary Objective:** What is the core business or technical goal?
    - **Non-Goals:** What are we explicitly *not* building?
@@ -64,4 +64,5 @@ You MUST copy the following checklist into your internal reasoning/scratchpad. C
    - **Use Emphasis:** **Bold** key terms and concepts so the document is easy to skim.
    - **Abstract Implementation:** If you find yourself writing implementation logic, STOP. Write the *goal* of the function instead. Explain the contract, not the code.
 5. **Maintain Truth:** If the user changes their mind or adds new requirements during this phase, you MUST immediately update the `.architecture-background.md` and `.architecture-outline.md` files before continuing to draft. Do not let the reference files drift from the conversation.
+6. **Loop:** Repeat the "STOP AND WAIT" cycle for every single section until the document is complete. Never skip the wait step.les drift from the conversation.
 6. **Loop:** Repeat the "STOP AND WAIT" cycle for every single section until the document is complete. Never skip the wait step.
