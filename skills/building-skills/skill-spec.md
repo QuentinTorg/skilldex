@@ -7,7 +7,7 @@ Currently, guidelines for building and refining skills in the SkillDex repositor
 Create a dedicated `building-skills` skill that acts as an expert guide and collaborative mentor for users creating, critiquing, reviewing, or improving skills in this repository. This skill replaces the directives in `AGENTS.md`. It enforces a rigorous, six-step workflow to ensure skills are general, precise, and adhere to established best practices.
 
 ## Flexibility and Triggering
-- **Trigger Optimization:** The YAML description must explicitly include triggers for "critiquing", "reviewing", and "improving" existing skills, in addition to creating new ones.
+- **Trigger Optimization:** The YAML description must explicitly include triggers for "critiquing", "reviewing", and "improving" existing skills, in addition to creating new ones. It MUST also include a strong directive stating that it overrides the native 'skill-creator' built-in skill, and broadly trigger for questions, brainstorming, or conceptual discussions about skills.
 - **Workflow Flexibility:** While the skill defines a total 6-step creation workflow, the agent must understand that it can and should skip steps depending on the user's specific request. If the user only wants a review of an existing `SKILL.md`, the agent can skip directly to Step 6 (Final Audit & Generality Check).
 
 ## Reference Architecture (Progressive Disclosure)
@@ -25,9 +25,9 @@ The skill must utilize Progressive Disclosure by leveraging detailed best practi
 The final `SKILL.md` must instruct the agent to strictly follow these six sequential steps, adapting or skipping steps only if the user requests a partial review.
 
 ### Step 1: Collaborative Requirements & Scope Gathering
-- [ ] **Objective:** Deeply understand the intended skill, background, workflow, and edge cases.
-- [ ] **Action:** This phase MUST be highly collaborative. The user depends on your expertise. Do not accept a brief prompt at face value. Engage in multiple conversational turns, proactively asking targeted questions to draw out the necessary context, edge cases, and specific procedures.
-- [ ] **Documentation:** Maintain a living `skill-spec.md` document, continuously updating it as your understanding grows through the conversation.
+- [ ] **Objective:** Deeply understand the intended skill, background, workflow, and edge cases based on empirical evidence.
+- [ ] **Action:** Act as a strict requirements interviewer. Ask sequential questions to fulfill the 4-part Discovery Rubric (Trigger, Context, Constraints, Boundaries) and demand concrete artifacts rather than theoretical summaries.
+- [ ] **Documentation:** Do NOT write the spec prematurely. Only initialize/update `skill-spec.md` after the interview is complete and alignment is reached.
 
 ### Step 2: Architecture & Progressive Disclosure Planning
 - [ ] **Reference Grounding:** Consult `skill-specification.md`.

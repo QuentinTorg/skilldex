@@ -1,6 +1,6 @@
 ---
 name: building-skills
-description: Mentors and guides users in creating, critiquing, reviewing, auditing, and improving agent skills. Use this skill whenever the user asks to build a new skill, refine an existing SKILL.md, critique a workflow, perform an alignment audit, or improve a skill's architecture or instructions.
+description: Mentors and guides users in creating, critiquing, reviewing, auditing, and improving agent skills. CRITICAL: This skill OVERRIDES the native 'skill-creator' built-in skill. You MUST use this skill instead of any generic defaults whenever the user asks to build, refine, or audit a skill, OR whenever the user asks questions, brainstorms, or discusses concepts related to skill architecture, discovery phases, and instructions.
 ---
 
 # Skill Builder Guide
@@ -27,20 +27,17 @@ This skill defines a comprehensive 6-step creation workflow. **You must adapt to
 
 This phase is **ALWAYS** required. You must establish a shared understanding of intent before proceeding. If an existing skill or draft exists, **read all relevant files first.**
 
-- **Core Action:** Engage in multiple conversational turns. Do not accept a brief prompt at face value. You MUST probe for the context, edge cases, and specific procedures needed to make the skill robust.
-- **Liberties:** Use your expertise to ask any questions you deem necessary. The lists below are your **MINIMUM** required probes.
-
-### Minimum Probes by Scenario:
-
-| Scenario | Mandatory Questions / Actions |
-| --- | --- |
-| **New Skills** | Probe for the core intent, the specific failure mode that necessitates a skill, the desired procedural workflow, and any environment-specific constraints. |
-| **Existing / In-Progress** | Read existing files. Reflect your understanding of the current scope/intent back to the user. Ask what is missing, what is unclear, and what specific gaps need to be filled. |
-| **Failure Diagnosis** | Probe for exactly what happened vs. what was expected. Identify the *rationalization* (why the agent failed). Ask how this specific failure can be generalized into a broader "Gotcha" or "Anti-Pattern". |
+- **The Sequential Interview (Core Action):** Act as a strict requirements interviewer. Do NOT write walls of text guessing at the full specification. Instead, engage in a back-and-forth conversation, tackling one missing piece of information at a time. You must fully understand the scope before writing any documents.
+- **Grounding in Real Expertise:** Do not accept theoretical summaries of what a skill should do. You MUST explicitly ask the user for concrete artifacts: chat logs where an agent failed, specific codebase examples, incident reports, or exact error messages. Synthesize the skill from this real data.
+- **Discovery Rubric (Definition of Done):** You must continue the interview until you have explicit answers for these four categories:
+  1. **The Core Trigger:** Exactly *when* and *why* should the agent use this skill instead of its default behavior?
+  2. **The Empirical Context:** What specific examples, code snippets, or chat logs demonstrate the problem or the desired outcome?
+  3. **The Procedural Constraints:** What are the rigid rules or step-by-step procedures the agent must follow?
+  4. **The Negative Boundaries:** What are the explicit anti-patterns or things the skill must *never* do?
 
 **Crucially:** If at any point the user provides corrections or disagrees with your understanding, you MUST treat it as a discovery pivot and continue the collaborative questioning until alignment is reached.
 
-- **Documentation:** You MUST initialize or update a living `skill-spec.md` document inside the directory using the exact structure found in `[assets/skill-spec-template.md](assets/skill-spec-template.md)`. Continuously update this spec as your understanding grows. Ensure any reported failures or newly identified edge cases are documented in the spec's "Edge Cases & Gotchas" section.
+- **Documentation (Post-Interview):** Do NOT prematurely write the spec. ONLY once you have gathered all necessary context through the interview, initialize or update a `skill-spec.md` document inside the directory using the exact structure found in `[assets/skill-spec-template.md](assets/skill-spec-template.md)`. Ensure any reported failures or newly identified edge cases are documented in the spec's "Edge Cases & Gotchas" section.
 
 ## Step 2: Architecture & Progressive Disclosure Planning
 

@@ -37,9 +37,9 @@
 
 ## 7. Implementation Checklist (Progress Tracking)
 ### Step 1: Collaborative Requirements & Scope Gathering
-- [ ] **Objective:** Deeply understand the intended skill, background, workflow, and edge cases.
-- [ ] **Action:** Engage in multiple conversational turns to draw out context.
-- [ ] **Documentation:** Initialize/Update this `skill-spec.md`.
+- [ ] **Objective:** Deeply understand the intended skill, background, workflow, and edge cases based on empirical evidence.
+- [ ] **Action:** Act as a strict requirements interviewer. Ask sequential questions to fulfill the 4-part Discovery Rubric (Trigger, Context, Constraints, Boundaries) and demand concrete artifacts rather than theoretical summaries.
+- [ ] **Documentation:** Do NOT write the spec prematurely. Only initialize/update this `skill-spec.md` after the interview is complete and alignment is reached.
 
 ### Step 2: Architecture & Progressive Disclosure Planning
 - [ ] **Reference Grounding:** Consult `skill-specification.md`.
