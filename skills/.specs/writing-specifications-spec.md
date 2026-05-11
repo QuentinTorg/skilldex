@@ -31,9 +31,13 @@
 - **Gotcha: Premature Formalization:** If the user asks for feedback on a rough idea, do not immediately formalize it into a Markdown spec. Keep the conversation open until the user says they are ready to draft.
 
 ### Failure Analysis
-- **Reported Failure:** Agents one-shot generate entire documentation suites on the first prompt, filling them with messy, wordy text and explicit code implementation instead of conceptual guardrails.
-- **Root Cause/Rationalization:** Agents interpret "write a spec" as a directive to immediately output the final artifact, missing the crucial planning and alignment steps. They rationalize including code because it feels "helpful" and concrete.
-- **Generalization:** Teach the agent that specification writing is a *consultative process*, not a text-generation task. Enforce strict pacing (Stop and Wait) and abstract constraints.
+- **Reported Failure:** 
+  1. When provided with previous reference documents and asked to start a new spec, agents skip the discovery/outlining phase and immediately dump a confusing, poorly organized first draft.
+  2. When asked to update a specific part of a draft after discussion, agents rewrite the entire monolithic document instead of surgically updating the relevant sections.
+- **Root Cause/Rationalization:** 
+  - Agents assume the presence of "reference material" means they should skip discovery and jump straight to generating the final artifact.
+  - Agents treat markdown documents as immutable single entities rather than structured, section-by-section living documents.
+- **Generalization:** Teach the agent that specification writing is a *consultative process*, not a text-generation task. Enforce strict pacing (Stop and Wait), mandate collaborative outlining, and explicitly require section-by-section iterative drafting rather than full-document rewrites.
 
 ## 5. Architecture & Progressive Disclosure Plan
 - **`SKILL.md` (Core Instructions):** Contains the strict 3-Phase Workflow, anti-patterns (no one-shotting, no code), the core philosophies (Onion Architecture, Separation of Concerns), and the checklist for pacing.
