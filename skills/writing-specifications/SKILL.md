@@ -29,7 +29,7 @@ Writing a specification is a **consultative, multi-turn process**. You are an ar
 
 ---
 
-## The 3-Phase Workflow Checklist
+## The 4-Phase Workflow Checklist
 You MUST copy the following checklist into your internal reasoning/scratchpad. Check off the items as you proceed to ensure you maintain strict pacing. Do not move to the next phase until the user explicitly approves.
 
 ### [ ] Phase 1: Discovery & Brainstorming
@@ -64,5 +64,15 @@ You MUST copy the following checklist into your internal reasoning/scratchpad. C
    - **Use Emphasis:** **Bold** key terms and concepts so the document is easy to skim.
    - **Abstract Implementation:** If you find yourself writing implementation logic, STOP. Write the *goal* of the function instead. Explain the contract, not the code.
 5. **Maintain Truth:** If the user changes their mind or adds new requirements during this phase, you MUST immediately update the `.architecture-background.md` and `.architecture-outline.md` files before continuing to draft. Do not let the reference files drift from the conversation.
-6. **Loop:** Repeat the "STOP AND WAIT" cycle for every single section until the document is complete. Never skip the wait step.les drift from the conversation.
 6. **Loop:** Repeat the "STOP AND WAIT" cycle for every single section until the document is complete. Never skip the wait step.
+
+### [ ] Phase 4: Final Verification & Review
+*Do NOT silently modify documents during this phase. This is a consultative review.*
+1. **Self-Assessment:** Once the document is completely drafted, self-assess the final artifact against two things:
+   - The initial approved outline and the `[Outline Blueprints](references/outline-blueprints.md)`.
+   - The 🚨 **Anti-Patterns & Red Flags** section of this skill (e.g., lack of code blocks, proper separation of concerns).
+2. **Identify Issues:** Look for major omissions, structural flaws, or deviations from best practices.
+3. **Respect User Intent:** If you find a deviation (e.g., a missing Security section), but the user explicitly requested that deviation during earlier phases, you MUST treat it as a valid, intentional design choice. Do NOT flag it as an error.
+4. **Propose Fixes:** Present a summary of your findings to the user. If you identify issues, explicitly propose the specific additions or changes you want to make.
+5. **Wait for Approval:** Ask the user for permission to apply the fixes.
+6. **Implement:** If the user approves, loop back to **Phase 3 (Iterative Drafting)** to implement the changes surgically. Do NOT rewrite the entire document.

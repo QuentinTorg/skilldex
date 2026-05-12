@@ -24,6 +24,13 @@
    - Build the documentation *one section (or one document) at a time*.
    - Do NOT one-shot the entire suite.
    - After each section, verify it aligns with the original outline and ask the user for feedback before moving to the next.
+4. **Phase 4: Final Verification & Review:**
+   - **Do NOT silently modify documents.** This is a consultative review.
+   - Self-assess the drafted documents against the initial outline, the `outline-blueprints.md` structures, and the core anti-patterns defined in the skill (e.g., lack of code blocks, proper separation of concerns).
+   - Identify any major omissions, structural flaws, or deviations from best practices.
+   - **Respect User Intent:** If a deviation exists because the user explicitly requested it (e.g., "I don't want a security section"), treat it as a valid, intentional design choice. Do not flag it as an error.
+   - Present a summary of findings to the user.
+   - If issues are found, propose specific fixes and wait for user approval. If approved, loop back to Phase 3 (Iterative Drafting) to implement the changes.
 
 ## 4. Edge Cases & "Gotchas"
 - **Gotcha: Premature Implementation:** Agents love writing code. Design docs must focus on roles, responsibilities, data flow, and guardrails. Explicit code must be banned unless it is a tiny, generic conceptual snippet (like a JSON payload shape).
@@ -40,8 +47,8 @@
 - **Generalization:** Teach the agent that specification writing is a *consultative process*, not a text-generation task. Enforce strict pacing (Stop and Wait), mandate collaborative outlining, and explicitly require section-by-section iterative drafting rather than full-document rewrites.
 
 ## 5. Architecture & Progressive Disclosure Plan
-- **`SKILL.md` (Core Instructions):** Contains the strict 3-Phase Workflow, anti-patterns (no one-shotting, no code), the core philosophies (Onion Architecture, Separation of Concerns), and the checklist for pacing.
-- **`references/outline-blueprints.md`:** Detailed structural blueprints for Top-Level Specs, Component Specs, and API Specs. This is loaded via progressive disclosure only when the agent reaches Phase 2.
+- **`SKILL.md` (Core Instructions):** Contains the strict 4-Phase Workflow, anti-patterns (no one-shotting, no code), the core philosophies (Onion Architecture, Separation of Concerns), and the checklist for pacing.
+- **`references/outline-blueprints.md`:** Detailed structural blueprints for Top-Level Specs, Component Specs, and API Specs. This is loaded via progressive disclosure only when the agent reaches Phase 2, and referenced again in Phase 4.
 - **`assets/` (Templates):** None explicitly required initially.
 - **`scripts/` (Executable Logic):** None required.
 
