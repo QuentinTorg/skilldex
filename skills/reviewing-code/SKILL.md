@@ -63,8 +63,9 @@ For each check below, you must:
    - **Advantage:** (Concrete architectural, performance, or safety benefit)
    ```
 3. **Evaluate and Proceed (Batched Interactions):**
-   - **If NO issues are found:** Briefly note the passing check in your tracking document and automatically proceed to the next check.
-   - **If ANY issues are found:** Continue checking the remaining items in the *current Phase*.
+   - **Durable Audit Logging:** For *every* check (whether it passes or fails), you MUST write your specific findings, positive architectural observations, and rationale as bullet points *under* the checklist item in your tracking document. Do not just check the box. The tracking document is a durable audit log, not just an issue tracker.
+   - **If NO issues are found:** After writing your positive observations, check the box and automatically proceed to the next check.
+   - **If ANY issues are found:** Log the issues using the structured template below, check the box, and continue checking the remaining items in the *current Phase*.
    - **PHASE HOLD STATE (MANDATORY):** Once all checks for the *current Phase* (e.g., Phase 1) are complete, **STOP and present your findings for that entire Phase to the user.** You are now in a **HARD HOLD STATE**. You must explicitly halt response generation. You are strictly forbidden from reading the next phase's reference file or performing any further analysis until the user replies.
    - **Progression Commands:** When the user issues an affirmative progression command (e.g., "continue", "next", "looks good", "go ahead"), it grants you permission to execute **ONLY the very next phase**. Under no circumstances may a single progression command be interpreted as permission to execute the remainder of the entire review.
    - **Fundamental Flaws:** Crucially, if you discover a fundamental flaw (e.g., a major architectural violation) that renders the rest of the code obsolete, immediately pause and ask the user if they would like to abort the remaining checks and proceed directly to the Output Phase.
@@ -106,7 +107,7 @@ For each check below, you must:
    - **[SUGGESTION]:** Architectural improvements, readability enhancements.
    - **[QUESTION]:** Inquiries into the author's intent.
    - **[FYI]:** Informational context about architectural side-effects. **Constraint:** Use this exceedingly sparingly. Only use `[FYI]` for high-value insights that impact future maintainability but require no immediate action. Do not use it for trivial observations or noise.
-4. **Draft the Overall Summary:** Draft the main PR review body. While inline comments are strictly technical, you should use a positive and collaborative tone here to foster a good team dynamic. This summary should:
+4. **Draft the Overall Summary:** Draft the main PR review body for chat presentation. While inline comments are strictly technical, you should use a positive and collaborative tone here to foster a good team dynamic. This summary should:
    - Explain *why* the PR is passing or failing overall.
    - Provide an overall impression of the structural and architectural changes, highlighting at least one structural positive before delivering critiques.
    - Explicitly list the total number of [BLOCKER] issues that must be addressed.
@@ -114,7 +115,9 @@ For each check below, you must:
    - State your final recommendation (Approve, Request Changes, or Comment).
 5. **Present Draft:** Show the drafted review (both the overall summary and the inline comments) to the user in the chat.
 6. **Prompt for Action:** Ask the user: "Would you like me to post this review directly to GitHub, or save it as a final Markdown file for you to use later?"
-7. **Execute:** Execute the user's choice. If posting to GitHub, **do NOT dump all findings into a single mega-comment on the PR body.** Instead, you MUST post your findings as targeted inline comments attached to their specific files and lines. Refer to the [GitHub CLI Guide](references/gh-cli-guide.md) for the exact JSON payload structure and `gh api` execution command required to properly submit the review.
+7. **Execute:** Execute the user's choice.
+   - **If saving as Markdown:** Save the fully decorated draft exactly as presented.
+   - **If posting to GitHub:** You MUST explicitly read the `[GitHub CLI Guide](references/gh-cli-guide.md)` file *before* executing the GitHub submission. Do not rely on assumed knowledge of the `gh` CLI. The guide contains strict formatting rules (including Context-Aware Stripping of redundant headers) and the exact JSON payload structure required to properly submit targeted inline comments. Do NOT dump all findings into a single mega-comment.
 
 **Agent-Specific Optimizations**
 - **Parallelism Boundary:** You may utilize parallel context gathering (e.g., multiple `grep_search` or `read_file` calls) to build context rapidly for a *single phase*. However, your analysis, documentation, and reporting of findings MUST be strictly serial and tied to one phase at a time. You are **strictly forbidden** from analyzing or reporting on more than one phase in a single turn.

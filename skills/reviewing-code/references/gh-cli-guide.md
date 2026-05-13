@@ -19,6 +19,12 @@ If the PR is small, you can fetch the full diff. If it is large, fetch diffs for
 
 ## 2. Submitting the Review (Inline Comments)
 
+**Context-Aware Stripping (CRITICAL):**
+When converting your drafted review into a GitHub payload, you MUST actively strip redundant headers from the `body` field. 
+- Remove the "Recommendation", "Overall Summary", and "Total [BLOCKER] issues" lines. 
+- The GitHub UI naturally conveys this state (e.g., via the green "Approved" badge driven by the `event` parameter). 
+- Only include the actual descriptive prose in the main body.
+
 The standard `gh pr review` command does **not** support posting targeted inline comments. You must use `gh api` to construct and submit a raw JSON payload to the GitHub REST API.
 
 **The Endpoint:**
@@ -53,7 +59,7 @@ You must construct a JSON file with the following strict structure:
 
 *Important Constraints for the Payload:*
 - `event`: MUST be exactly one of: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`.
-- `body`: The overall executive PR summary.
+- `body`: The overall executive PR summary. **Context Stripping Required:** Do NOT include redundant headers like "Overall Summary", "Recommendation: Approve", or "Total BLOCKER issues: 0" in this body text. The `event` parameter already dictates the visual state in the GitHub UI. Only include the actual descriptive prose.
 - `comments.path`: The relative file path from the root of the repository.
 - `comments.line`: The specific line number in the modified file.
 - `comments.body`: The human-readable, formatted inline comment.
