@@ -2,8 +2,6 @@
   <img src="assets/skilldex_banner.png" alt="SkillDex Banner" />
 </p>
 
-# SkillDex
-
 A public collection of agent skills for daily use, along with a dedicated workspace and framework for building, refining, and tuning highly effective skills.
 
 **What are Agent Skills?**
@@ -23,7 +21,7 @@ This repository serves a dual purpose:
 
 ## Installation & Live Tuning
 
-You can install skills from this repository to use across a variety of compatible AI agent providers. Most agents support copying the skill directory into their specific configuration folders. 
+You can install skills from this repository to use across a variety of compatible AI agent providers. Most agents support copying the skill directory into their specific configuration folders.
 
 When you are developing or tuning a skill within this repository, you'll want to test it locally without constantly re-installing it. You can **link** or symlink the skill so that any modifications you make are immediately reflected in your agent sessions.
 
