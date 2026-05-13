@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/skilldex_banner.png" alt="SkillDex Banner" />
+</p>
+
 # SkillDex
 
 A public collection of agent skills for daily use, along with a dedicated workspace and framework for building, refining, and tuning highly effective skills.
