@@ -6,6 +6,7 @@ A public collection of agent skills for daily use, along with a dedicated worksp
 
 - **[building-skills](./skills/building-skills/)**: Mentors and guides users in creating, critiquing, reviewing, and improving agent skills using a rigorous, 6-step granular workflow.
 - **[reviewing-code](./skills/reviewing-code/)**: Use this skill whenever you need to review a Pull Request, branch, or perform a deep technical inspection of code. It guides the agent through a methodical, interactive review process.
+- **[writing-specifications](./skills/writing-specifications/)**: Teach the agent to act as an architectural sounding board and expert technical writer to brainstorm, structure, and iteratively draft high-quality design documents and specifications from scratch or messy notes.
 
 ## How to Use This Repository
 
