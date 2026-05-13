@@ -89,10 +89,11 @@ For each check below, you must:
 - [ ] **Check 12: Scrutinize Overengineering & "Just in Case" Code**
 - [ ] **Check 13: Dead Code & Orphaned Artifacts**
 
-**Phase 4: Verification & Docs** (Read `references/phase-4-verification.md` when permitted)
+**Phase 4: Verification, Docs & Synthesis** (Read `references/phase-4-verification.md` when permitted)
 - [ ] **Check 14: Test Rigor**
 - [ ] **Check 15: Comment Accuracy & Intent Documentation**
 - [ ] **Check 16: Omissions & Contract Parity**
+- [ ] **Check 17: Uncategorized Observations & Emergent Patterns**
 
 ## Output & Finalization Phase
 1. **Synthesize & Regroup:** Once all checks are complete, synthesize the findings from your tracking document into a cohesive code review. **You MUST reorganize your findings to be grouped by File and Line Number.** Do not present the final review grouped by the procedural phases or check numbers used during analysis.
