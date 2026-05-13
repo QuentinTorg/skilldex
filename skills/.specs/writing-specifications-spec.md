@@ -34,6 +34,7 @@
 
 ## 4. Edge Cases & "Gotchas"
 - **Gotcha: Premature Implementation:** Agents love writing code. Design docs must focus on roles, responsibilities, data flow, and guardrails. Explicit code must be banned unless it is a tiny, generic conceptual snippet (like a JSON payload shape).
+- **Gotcha: ASCII Art & Overuse of Diagrams:** Agents default to ASCII arrows (`Client --> Proxy --> Server`) which are hard to read. They must use Mermaid diagrams. However, they shouldn't overuse diagrams for simple point-to-point (A -> B) relationships. The heuristic is: "Does this visual reduce cognitive load?" If yes, use Mermaid. If it's a simple relationship, text is fine. Do not be overly prescriptive with diagram types so the agent generalizes well.
 - **Gotcha: Wordiness:** Agents write overly verbose, narrative text. The skill must enforce concise, highly organized, high-to-low level structuring.
 - **Gotcha: Premature Formalization:** If the user asks for feedback on a rough idea, do not immediately formalize it into a Markdown spec. Keep the conversation open until the user says they are ready to draft.
 
