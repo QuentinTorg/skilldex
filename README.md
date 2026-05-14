@@ -2,7 +2,7 @@
   <img src="assets/skilldex_banner.png" alt="SkillDex Banner" />
 </p>
 
-A public collection of agent skills for daily use, along with a dedicated workspace and framework for building, refining, and tuning highly effective skills.
+SkillDex is a public collection of agent skills for daily use, along with a dedicated workspace and framework for building, refining, and tuning highly effective skills.
 
 **What are Agent Skills?**
 Agent skills are a lightweight, open format for extending AI CLI agents (like Gemini, Cursor, and Claude Code) with specialized knowledge and workflows. Under the hood, they act as advanced, file-based prompts (`SKILL.md`) that the agent can discover and autonomously trigger whenever it recognizes that the skill applies to your current task. This ensures the agent consistently follows your specific conventions and best practices without needing to be manually instructed every time.
