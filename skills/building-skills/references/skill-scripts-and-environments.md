@@ -6,6 +6,7 @@ Skills can instruct agents to run shell commands and bundle reusable scripts. Th
 1. **One-off Commands:** Leverage ecosystem tools (e.g., `uvx`, `npx`) directly in `SKILL.md`. State runtime prerequisites in the `compatibility` frontmatter.
 2. **Bundled Scripts:** Store custom logic in `scripts/`. Always use **relative paths** and **forward slashes** from the skill root. List available scripts explicitly in `SKILL.md`.
 3. **Self-Contained Scripts:** Prefer scripts that declare their dependencies inline (e.g., PEP 723 for Python, Deno URL imports) to avoid installation steps.
+4. **Visual Analysis for Complex Layouts:** If the agent supports vision capabilities, bundle scripts to convert complex spatial data (like PDFs, charts, or UIs) into images. Visual analysis is often more reliable than parsing raw layout text.
 
 ## Designing Scripts for Agentic Ergonomics
 Scripts must be designed to accommodate non-human agent behaviors:

@@ -20,8 +20,8 @@ The `SKILL.md` file must start exactly with YAML frontmatter followed by Markdow
 
 | Field | Required | Constraints |
 | --- | --- | --- |
-| `name` | Yes | 1-64 chars. Lowercase letters (`a-z`), numbers, and hyphens (`-`) only. Must match parent directory name. Consider **gerund form** (verb + -ing). |
-| `description` | Yes | 1-1024 chars. Describes what the skill does and when to use it (trigger conditions). |
+| `name` | Yes | 1-64 chars. Lowercase letters (`a-z`), numbers, and hyphens (`-`) only. Must match parent directory name. Consider **gerund form** (verb + -ing). Cannot contain XML tags or reserved provider words (e.g., "claude", "gemini"). |
+| `description` | Yes | 1-1024 chars. Describes what the skill does and when to use it (trigger conditions). Cannot contain XML tags. |
 | `compatibility` | No | Max 500 chars. For specific environment requirements. |
 | `paths` | No | **(Cursor only)** Glob patterns that scope the skill to matching files. |
 | `disable-model-invocation` | No | **(Cursor only)** Boolean. If `true`, prevents automatic application; acts as a slash command. |
@@ -37,4 +37,6 @@ Skills manage agent context via a three-level system:
 
 ## File References
 When referencing other files (e.g., `[reference](references/REF.md)`), always use relative paths from the skill root. Use forward slashes (`/`). Keep references one level deep.
+- **Table of Contents:** For reference files exceeding ~100 lines, include a Table of Contents at the top. Agents often preview files by reading the first few lines; a TOC ensures they immediately grasp the full scope of available information.
+
 **Critical Gotcha:** Do NOT use `@` links (e.g., `@references/REF.md`) in agent environments like Cursor or Claude that support them. The `@` syntax force-loads files immediately into context upon discovery, destroying the benefits of progressive disclosure and burning context limits before the file is even needed. Use standard markdown links instead.

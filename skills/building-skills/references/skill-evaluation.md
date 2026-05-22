@@ -26,5 +26,6 @@ An effective way to validate skills is to collaborate with LLMs directly:
 
 ## Iteration Loop
 - Analyze transcripts of successful vs. failed runs. Where did the agent diverge?
+- **Observe Agent Navigation Patterns:** Pay close attention to how the agent navigates the filesystem. If it repeatedly reads files out of order, ignores referenced content, or misses connections, your progressive disclosure architecture needs refinement.
 - Generate actionable improvements categorized by: prose instructions, scripts to add, input/output examples, and error handling fallback guidance.
 - Ensure the skill generalizes from feedback rather than overfitting to specific test cases. Stop iterating when improvements plateau.

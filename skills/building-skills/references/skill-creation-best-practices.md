@@ -8,6 +8,7 @@ Creating effective Agent Skills requires grounding instructions in real expertis
 - **Manage Context Efficiently:** The context window is a public good. Include only project-specific procedures, non-obvious edge cases, and specific tools. Omit general knowledge.
 - **Progressive Disclosure:** Keep the core `SKILL.md` concise (< 500 lines). Skills are tiered into metadata (triggering), instructions (loaded on activation), and resources (loaded on demand). Move detailed references to separate files (`references/`) to prevent context bloat.
   - *Keep References Shallow:* Keep file references one level deep from `SKILL.md`.
+  - *Domain-Specific Routing:* For complex skills covering multiple domains, organize references by domain (e.g., `reference/finance.md`, `reference/sales.md`). Direct the agent to read only the relevant domain file to minimize context bloat.
 
 ## Instructional Design
 
@@ -18,6 +19,7 @@ Creating effective Agent Skills requires grounding instructions in real expertis
 - **Explain the Why:** Explain the *why* behind instructions instead of relying on heavy-handed MUSTs where possible, allowing the LLM's theory of mind to handle variations.
 - **Provide Defaults:** Pick a primary default tool or approach and mention alternatives briefly rather than providing equal menus.
 - **Favor Procedures over Declarations:** Teach the agent *how to approach* a class of problems rather than giving the specific answer for a single instance.
+- **Strict Terminology Consistency:** Choose one specific term and use it uniformly throughout the skill (e.g., do not mix "URL", "endpoint", and "path"). Inconsistent terminology degrades an agent's ability to follow instructions reliably.
 
 ## Structural Patterns
 
