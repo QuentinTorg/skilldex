@@ -19,3 +19,6 @@ Every new dependency is a liability; push back if it is not strictly justified.
 
 ## 4. Layering Violations & Separation of Concerns
 Evaluate whether functionality is implemented at the correct architectural layer. Core domain logic and data transformations should be deterministic and isolated from external state. Identify and hoist side effects (I/O, environmental access, process control) to the appropriate orchestration boundaries or infrastructure layers. Ensure components rely on dependency injection or higher-level coordination rather than initiating unauthorized external interactions from deep within the call stack.
+
+## 5. Deployment & Release Safety
+Evaluate how the change is rolled out to the environment. Verify that it can ship and unship safely. Look for the presence of deployment mechanics such as feature flags for risky logic, staged rollout paths, and non-locking, reversible database migrations. If a change alters shared state in a way that cannot be easily rolled back, flag it as a deployment risk.
