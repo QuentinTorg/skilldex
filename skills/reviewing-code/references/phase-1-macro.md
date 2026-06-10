@@ -6,7 +6,7 @@ This document outlines the deep technical inspection criteria for macro-architec
 Search the workspace for relevant design documents, Architecture Decision Records (ADRs), or Request For Comments (RFCs) that relate to the PR. Ensure that the structural changes and new features comply strictly with the documented architectural decisions, intended design, and established workspace patterns.
 
 ## 2. Backward Compatibility & Breaking Changes
-Identify if the changes alter public-facing APIs, database schemas, serialized data formats, or persistent storage. If so, rigorously verify that the change is backward compatible. If it introduces a breaking change, ensure that a clear migration path, versioning strategy, or deprecation plan is included and well-documented to prevent breaking downstream clients.
+Identify if the changes alter public-facing APIs, database schemas, serialized data formats, or persistent storage. If so, rigorously verify that the change is backward compatible. If it introduces a breaking change, identify if the change was valuable enought to break the API. Was there an alternative change that could have maintained compatibility? If the breaking change was deemed necessary, ensure that a clear migration path, versioning strategy, or deprecation plan is included and well-documented to prevent breaking downstream clients.
 
 ## 3. Dependency & Supply Chain Scrutiny
 If dependency files (e.g., `package.json`, `requirements.txt`, `Cargo.toml`, `go.mod`) are modified, explicitly evaluate the new dependencies using the following discipline matrix:
