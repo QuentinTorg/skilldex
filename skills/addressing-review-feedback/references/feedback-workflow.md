@@ -16,12 +16,13 @@ This document details the rigid CLI and Git workflow you MUST follow when addres
 
 ## 2. Extraction & Context Gathering
 - **Fetch Feedback:** 
-  - `gh pr view --comments` or `gh pr review` to get the raw comments.
-  - If the user provides a local markdown file, read that instead.
+  - Use `gh api repos/{owner}/{repo}/pulls/{pull_number}/comments` to get the raw comments as JSON. This ensures you have the `id` for each comment required for replying later.
+  - **Graceful Fallback:** If the `gh` CLI is unavailable or this is not a GitHub repository, instruct the user to manually paste the review comments into a markdown file, and skip the automated API replies (reminding the user to reply manually via their web UI).
+  - **GitHub Enterprise:** If you encounter connectivity or "not found" errors when using the API on a self-hosted GitHub Enterprise instance, verify the hostname (`git remote -v`) and append the `--hostname <enterprise-url>` flag to all `gh api` commands.
 - **Gather Context:** For each comment, identify the file and line number. Use the appropriate file reading tools to fetch the surrounding code snippet. *Never present a comment to the user without its code context.*
 
 ## 3. GitHub Operations (Issues & Replies)
-When processing "Defer to Issues" or "Decline", or after committing an "Address Now" item:
+When processing "Defer to Issues" or "Decline", or after committing an "Address Now" item (and assuming `gh` is available):
 - **Create an Issue (Deferred):**
   ```bash
   gh issue create --title "Deferred: <Short Title>" --body "Deferred from PR #<ID>. Original comment: <Comment text>"

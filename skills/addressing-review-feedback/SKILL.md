@@ -1,6 +1,6 @@
 ---
 name: addressing-review-feedback
-description: Triggers when the user asks to address, process, or handle code review comments or PR feedback. Systematically categorizes comments by action (Address/Defer/Decline), risk, and impact, and securely guides you through implementing and documenting the resolutions.
+description: Use when the user asks to address, implement, process, or handle code review comments, Pull Request (PR) feedback, or feedback from a markdown file. You MUST use this skill whenever the task involves resolving review feedback to ensure it is processed safely, methodicaly, and without data loss.
 ---
 
 # Addressing Review Feedback
@@ -41,19 +41,20 @@ Ask the user for approval. If the user suggests changes, update your list and **
 *(Violating this rule and moving on after discussing just one item is an explicit anti-pattern).*
 
 ### 6. Process Deferred & Declined Items
-For "Defer" and "Decline" items, perform the required `gh` operations as defined in `[Feedback Workflow & Constraints](references/feedback-workflow.md)`.
+For "Defer" and "Decline" items, perform the required operations as defined in `[Feedback Workflow & Constraints](references/feedback-workflow.md)`.
 
 ### 7. Execution & Validation Loop
 For each item in the "Address Now" category, perform a strict loop:
-1. **Plan Approval:** Propose the exact code changes you intend to make. Wait for the user's explicit approval. (Exception: The user may grant batch approval for all "Low Risk" items during Step 5).
+1. **Plan Approval:** Propose the exact code changes you intend to make. Wait for the user's explicit approval. 
 2. **Execute:** Modify the code.
-3. **Commit:** Commit the changes. **Never rewrite history** (see Git Constraints in `references/feedback-workflow.md`).
+3. **Commit:** Commit the changes. (See Git Constraints in `references/feedback-workflow.md`).
 4. **Document:** Reply to the review thread on GitHub stating the issue is resolved in the recent commit.
 5. **Validate:** Ask the user if the comment was properly addressed before moving to the next item.
+
+**Batch Execution Exception:** For items categorized as "Low Risk", you may execute, commit, and document them as a single batch, asking for validation only once at the end of the batch.
 
 ---
 
 ## 🚫 Negative Boundaries (DO NOT DO THIS)
 - **NEVER** modify the wrong branch. Sync first.
-- **NEVER** rewrite git history (`--amend`, `rebase`, `--force`).
 - **NEVER** write code before the scope (the category list) AND the plan are explicitly approved by the user.

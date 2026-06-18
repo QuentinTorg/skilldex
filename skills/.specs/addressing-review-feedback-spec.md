@@ -35,7 +35,7 @@
    - **Execution:** Make the approved code changes.
    - **Commit:** Commit the updates securely.
    - **Document:** Reply to the associated review comment documenting the update.
-   - **Validation:** Present the change to the user and wait for agreement before moving to the next item.
+   - **Validation:** Present the change to the user and wait for agreement before moving to the next item. (Exception: Low Risk items can be batch executed and validated once at the end).
 
 ## 4. Edge Cases & Negative Boundaries
 - **Constraints/Gotchas:** 
