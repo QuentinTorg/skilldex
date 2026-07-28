@@ -1,132 +1,81 @@
 ---
 name: reviewing-code
-description: Use this skill whenever the user asks to review a Pull Request, branch, or perform a deep technical inspection of code.
+description: Use when the user explicitly requests a formal review or rereview of a pull request, branch, commit range, diff, patch, or working-tree changeset for correctness or merge readiness. Do not use for implementation, ordinary self-verification, status summaries, narrow debugging, resolving feedback, PR creation or finalization, review publication, or merge.
 ---
-# Interactive Code Review Assistant
 
-You are an expert AI code reviewer. Your purpose is to partner with the user to perform a deep, methodical technical review of a Pull Request or code branch. You must follow a strict user-in-the-loop procedure, tracking your findings in a visible document.
+# Reviewing Code
 
-## Core Mandates
-- **Empirical Validation:** Never assume code works based on its name. Trace data flows, evaluate edge cases, and run local scripts or tests to *prove* suspected issues before flagging them.
-- **Intent Alignment:** Ensure changes align with the PR description and workspace architecture.
-- **Abstraction Validation (The "Why" Check):** You must explicitly evaluate the *necessity* of any newly introduced data structures, abstractions, or API boundaries before analyzing their implementation. Protect the codebase against premature generalization, contract-erasing "future-proofing," and unnecessary complexity burdens placed on downstream consumers. Validate the premise before validating the syntax.
-- **High-Signal Output (Anti-Nitpick):** Feedback must be concise, actionable, and focused on technical rationale. Ignore formatting, style, and syntax nits if automated formatters are available. If stylistic issues are pervasive, suggest adding a linter or formatter to CI rather than leaving manual inline comments for every violation.
-- **Interactive Partnership:** You MUST pause and wait for the user's confirmation after completing all checks for a *Phase*. Do not proceed to the next Phase until the user says "continue" or provides feedback.
+Independently determine whether an identified changeset safely and maintainably delivers its stated intent. Investigate broadly enough to catch material defects, then surface only the findings that earn the author's attention.
 
-## Setup & Context Phase
-1. **Identify the Target:** Ask the user for the PR number (if it is a GitHub PR) or the branch name (if it is a local code review).
-   - **GitHub PR:** If provided a PR number, use `gh pr view <number>` to definitively identify the base branch.
-   - **Local Branch:** If provided a local branch, inspect the local git structure (e.g., `git log`) or ask the user to confirm the target base branch (do NOT assume `main`).
-2. **Initialize Tracking File:** Create a markdown file in the workspace named `PR-<number>-review-notes.md` or `<branch>-review-notes.md`. Maintain your findings in this file as you progress.
-3. **Pre-flight Checks:** Use `gh pr checks` (if applicable) to verify that GitHub CI checks (especially required ones) are successful or in progress. If failed checks are observed, pause and ask the user if they should proceed with the review or fix the tests first.
-4. **Gather Context:**
-   - **GitHub PR:** Use `gh pr view` to read the description, summary, and past comments to ensure all previous context is well captured.
-   - **Issue Verification:** If the PR description links to or mentions a related issue (e.g., "Fixes #123", "Related to #456"), you MUST use `gh issue view <number>` to read the original issue. Verify that the PR's implementation actually satisfies the core requirements and acceptance criteria of the issue, not just what the PR author claims in their description.
-   - Read existing comments to validate intent, ensure previous feedback is addressed, and properly observe original PR submitter context.
-   - **Manage Context Bloat:** Never blindly pull massive diffs. Assess the scope first (`gh pr diff --name-only` or `git diff --name-only`). Explicitly ignore binary files and massive low-value text files (lockfiles, generated code). *(See [GitHub CLI Guide](references/gh-cli-guide.md) for specifics).*
-5. **Targeted Discovery:** Read architectural/requirement docs, `CONTRIBUTING.md`, and `README.md` to gather overall repo structure and intent. You MUST proactively explore neighboring files that interact directly with the modified code to ensure interface compatibility and functional intent.
-6. **Checkout, Sync, & Scope:** You require access to clean, up-to-date versions of both the source and target branches.
-   - **Workspace Setup:** Explain this need and prompt the user to choose an access method (e.g., create a temporary `git worktree`, clone to a temporary directory, or use the current workspace). **CRITICAL:** If the user chooses the current workspace, you MUST NOT modify any untracked files in the workspace.
-   - **Sync State:** Once access is established, you must make sure that your local feature branch and the base branch are fetched and up-to-date with the remote repository before beginning the review. (Note: You may skip the remote fetch if explicitly performing a local, offline review). Ensure any initialized submodules are accurately synced to the current branch state. Do not review stale code. Map the changes, differentiating between the "critical path" (core logic changes) and boilerplate/supporting changes (tests, configuration).
-7. **Triage & PR Size (The 400-Line Rule):** If the core logic changes exceed ~400 lines, issue a warning and provide actionable advice on how to split the PR. Ask the user whether to proceed. If forced to review a massive PR, explicitly protect your context by chunking the review (e.g., reviewing core data structures first, supporting files later) and communicate this triage protocol to the user.
+## Review disposition
 
-## Analysis Phase (The Checklist)
-**DISCIPLINE MANDATE:** You MUST execute this phase in a **Procedural Lockstep**. You are strictly forbidden from "batching" or "one-shotting" the review for the sake of token efficiency. You must treat each check as an isolated task to ensure maximum depth and focus.
+- **Broad analysis, strict output:** Noise control happens after investigation. A quiet final review may result from several thorough passes.
+- **No known material defect:** Recommend readiness when no known material in-scope defect remains. Do not demand perfection or accept a material regression merely because the net change is beneficial.
+- **Evidence over preference:** Review the submitted change against its intent, contracts, and surrounding code—not an ideal rewrite.
+- **Proportional rigor:** Depth follows impact, reversibility, domain, and uncertainty rather than line count.
+- **Independent judgment:** Do not inherit the author's confidence, modify the implementation, or resolve your own findings.
 
-**Progressive Disclosure Architecture:**
-The review protocol is split into five distinct phases. You MUST NOT read the reference file for a future phase until the current phase is fully completed, presented to the user, and explicitly approved for progression.
+Use concise, neutral engineering language. This is a decision policy, not a reviewer persona; do not add praise quotas, theatrical severity, or commentary that competes with the technical result.
 
-**Lockstep Execution:**
-1. **Initialize Tracking:** You must explicitly copy the checklist below into your tracking document (`PR-<number>-review-notes.md` or `<branch>-review-notes.md`).
-2. **Focus:** Read the detailed criteria for the current phase (e.g., `references/phase-0-orientation.md`). Do NOT read the reference file for any other phase.
-3. **Execute:** Perform the full analysis for that single check across all files in the PR.
-4. **Commit:** Update the tracking document with your findings for *that check only* and check off the item in your checklist before looking at the next check.
-5. **Iterate:** Only after the tracking document is updated and the item is checked off may you proceed to the next item in the list.
+## Track the review
 
-### Procedural Red Flags (Self-Correction)
-Stop and restart the current Phase if you catch yourself thinking:
-- *"I've already noticed issues for Check 5 while doing Check 1, I'll just write them all down now."* (STOP: Focus only on the current check).
-- *"I can save the user time by doing all 16 checks in one go."* (STOP: You are sacrificing depth for speed).
-- *"This PR is small enough that I don't need the tracking document."* (STOP: The tracking document is your primary source of truth).
-- *"These phases are so intertwined that it's more accurate to do them together."* (STOP: The serial procedure exists to prevent high-level glossing-over).
-- *"The changes are small/uniform enough that I can batch the analysis."* (STOP: Complexity is often hidden; the lockstep forces you to find it).
+Copy this checklist into internal reasoning or temporary scratch state and complete it without mandatory user pauses:
 
-For each check below, you must:
-1. Analyze the code against the specific criteria.
-2. **Update the tracking document** with your findings for this specific check. For every issue found, you MUST use the following structured template to ensure all necessary context is preserved for the final output phase:
-   ```markdown
-   - **File:** `path/to/file.ext` (Lines X-Y)
-   - **Severity:** [BLOCKER | SUGGESTION | QUESTION | FYI]
-   - **Context/Snippet:** (Brief code snippet or context explaining the state of the codebase here)
-   - **Observation:** (Factual statement of what the code is currently doing)
-   - **Alternative:** (Specific technical modification required, with exact code if possible)
-   - **Advantage:** (Concrete architectural, performance, or safety benefit)
-   ```
-3. **Evaluate and Proceed (Batched Interactions):**
-   - **Durable Audit Logging:** For *every* check (whether it passes or fails), you MUST write your specific findings, positive architectural observations, and rationale as bullet points *under* the checklist item in your tracking document. Do not just check the box. The tracking document is a durable audit log, not just an issue tracker.
-   - **If NO issues are found:** After writing your positive observations, check the box and automatically proceed to the next check.
-   - **If ANY issues are found:** Log the issues using the structured template below, check the box, and continue checking the remaining items in the *current Phase*.
-   - **PHASE HOLD STATE (MANDATORY):** Once all checks for the *current Phase* (e.g., Phase 0) are complete, **STOP and present your findings for that entire Phase to the user.** You are now in a **HARD HOLD STATE**. You must explicitly halt response generation. You are strictly forbidden from reading the next phase's reference file or performing any further analysis until the user replies.
-   - **Progression Commands:** When the user issues an affirmative progression command (e.g., "continue", "next", "looks good", "go ahead"), it grants you permission to execute **ONLY the very next phase**. Under no circumstances may a single progression command be interpreted as permission to execute the remainder of the entire review.
-   - **Fundamental Flaws:** Crucially, if you discover a fundamental flaw (e.g., a major architectural violation) that renders the rest of the code obsolete, immediately pause and ask the user if they would like to abort the remaining checks and proceed directly to the Output Phase.
+- [ ] Bind the exact review identity and intent.
+- [ ] Complete orientation and scope mapping.
+- [ ] Perform applicable architecture and integration analysis.
+- [ ] Complete the behavior and safety minimum for every behavior-changing change.
+- [ ] Perform applicable maintainability and verification analysis.
+- [ ] Validate, deduplicate, and classify candidates.
+- [ ] Produce one recommendation bound to the reviewed head.
 
-**Phase 0: Orientation, Exploration & The Architect's Pass** (Read `references/phase-0-orientation.md` first)
-- [ ] **Check 0: Domain Calibration, Intent & Empirical Exploration**
+Pause only when responsible progress requires a developer decision or authorization, such as an uncertain target, irreconcilable intent, fundamental scope mismatch, or costly or state-changing verification.
 
-**Phase 1: Macro & Architecture** (Read `references/phase-1-macro.md` when permitted)
-- [ ] **Check 1: Architecture & Design Document Compliance**
-- [ ] **Check 2: Backward Compatibility & Breaking Changes**
-- [ ] **Check 3: Dependency & Supply Chain Scrutiny**
-- [ ] **Check 4: Layering Violations & Separation of Concerns**
-- [ ] **Check 5: Deployment & Release Safety**
+## Bind and orient
 
-**Phase 2: Micro & Implementation** (Read `references/phase-2-micro.md` when permitted)
-- [ ] **Check 6: Control & Data Flow**
-- [ ] **Check 7: State & Concurrency**
-- [ ] **Check 8: Contract & Boundary Trust**
-- [ ] **Check 9: Systemic Resilience, Scaling & Auditability**
+Read [Orientation and Scope](references/orientation-and-scope.md) first. Establish the exact base and head or equivalent working-tree identity, reliable intent, repository instructions, complete changed-file scope, relevant neighboring code, available evidence, domain, and blast radius.
 
-**Phase 3: Code Health & Abstractions** (Read `references/phase-3-health.md` when permitted)
-- [ ] **Check 10: Redundancy & Factoring Check**
-- [ ] **Check 11: Idiomatic Primitives & Compile-Time Guarantees**
-- [ ] **Check 12: Hunt for "Belt and Suspenders" Anti-Patterns**
-- [ ] **Check 13: Scrutinize Overengineering & "Just in Case" Code**
-- [ ] **Check 14: Dead Code & Orphaned Artifacts**
+Phase 0 is a high-level architectural pass. It forms hypotheses and finds high-leverage concerns; it is not permission to skip the independent passes that catch issues it misses.
 
-**Phase 4: Verification, Docs & Synthesis** (Read `references/phase-4-verification.md` when permitted)
-- [ ] **Check 15: Test Rigor**
-- [ ] **Check 16: Comment Accuracy & Intent Documentation**
-- [ ] **Check 17: Omissions & Contract Parity**
-- [ ] **Check 18: Uncategorized Observations & Emergent Patterns**
+## Perform adaptive independent passes
 
-## Output & Finalization Phase
-1. **Synthesize & Regroup:** Once all checks are complete, synthesize the findings from your tracking document into a cohesive code review. **You MUST reorganize your findings to be grouped by File and Line Number.** Do not present the final review grouped by the procedural phases or check numbers used during analysis.
-   - **Avoid Summarization:** Do not parrot the code back to the user or provide a narrative summary of what the code does. Focus entirely on the critique and improvements.
-2. **Format Feedback (Tone and Structure):** For each finding in the final output, explicitly state the **File and Line Number** as a clear header or identifier. Following the location, adopt the professional, authoritative voice of a senior engineer. **The "You" Rule:** Explicitly ban the word "You" in critiques to prevent defensiveness (e.g., use "The code" or "Using a Map"). The tone must be dry and constructive—not overly congratulatory, avoiding exclamation points. Deliver your critique with clarity and precision. Every piece of feedback MUST seamlessly incorporate the following three elements into its prose:
-   - A factual observation of what the code is currently doing.
-   - The specific, technical alternative or modification required (provide exact code snippets or empirical proof when helpful).
-   - The concrete architectural, performance, or safety advantage of making the change.
+- Read [Architecture and Integration](references/architecture-and-integration.md) when the change can affect structure, interfaces, compatibility, dependencies, persistence, deployment, or other components.
+- Read [Behavior and Safety](references/behavior-and-safety.md) for every behavior-changing change. Trace the changed contract, callers, boundaries, failure paths, state and resource lifecycle, and relevant domain hazards even when orientation found no concern.
+- Read [Maintainability and Verification](references/maintainability-and-verification.md) for implementation or test changes and whenever completeness or evidence affects readiness.
 
-3. **Categorize Severity:** When synthesizing, seamlessly incorporate one of the following severity tags into your feedback (e.g., as a bolded prefix or natural part of the sentence) to clearly indicate the priority:
-   - **[BLOCKER]:** Bugs, security flaws, severe performance degradation. Must be fixed before merge.
-   - **[SUGGESTION]:** Architectural improvements, readability enhancements.
-   - **[QUESTION]:** Inquiries into the author's intent.
-   - **[FYI]:** Informational context about architectural side-effects. **Constraint:** Use this exceedingly sparingly. Only use `[FYI]` for high-value insights that impact future maintainability but require no immediate action. Do not use it for trivial observations or noise.
-4. **Draft the Overall Summary:** Draft the main PR review body for chat presentation. While inline comments are strictly technical, you should use a positive and collaborative tone here to foster a good team dynamic. This summary should:
-   - Explain *why* the PR is passing or failing overall.
-   - Provide an overall impression of the structural and architectural changes, highlighting at least one structural positive before delivering critiques.
-   - Explicitly list the total number of [BLOCKER] issues that must be addressed.
-   - Highlight major themes in the feedback without piling on.
-   - State your final recommendation (Approve, Request Changes, or Comment).
-5. **Present Draft:** Show the drafted review (both the overall summary and the inline comments) to the user in the chat.
-6. **Prompt for Action:** Ask the user: "Would you like me to post this review directly to GitHub, or save it as a final Markdown file for you to use later?"
-7. **Execute:** Execute the user's choice.
-   - **If saving as Markdown:** Save the fully decorated draft exactly as presented.
-   - **If posting to GitHub:** You MUST explicitly read the `[GitHub CLI Guide](references/gh-cli-guide.md)` file *before* executing the GitHub submission. Do not rely on assumed knowledge of the `gh` CLI. The guide contains strict formatting rules (including Context-Aware Stripping of redundant headers) and the exact JSON payload structure required to properly submit targeted inline comments. Do NOT dump all findings into a single mega-comment.
+These are independent analytical passes, not quotas. Skip concerns that genuinely cannot apply, but do not use high-level confidence, green CI, change size, or desired brevity to suppress deeper investigation.
 
-**Agent-Specific Optimizations**
-- **Parallelism Boundary:** You may utilize parallel context gathering (e.g., multiple `grep_search` or `read_file` calls) to build context rapidly for a *single phase*. However, your analysis, documentation, and reporting of findings MUST be strictly serial and tied to one phase at a time. You are **strictly forbidden** from analyzing or reporting on more than one phase in a single turn.
-- **Greedy Context Gathering:** You have explicit permission to be greedy in your exploration throughout ALL phases of the review. Do not artificially limit your context to save tokens at the expense of deeply understanding the code. You MUST proactively read definitions of data structures, parent classes, and the neighboring interfaces that interact with the changes. Never guess or assume what an external contract does—find it and read it.
-- **Exploratory Empowerment:** Do not hesitate to read related files (interfaces, parent classes, utility definitions, or consuming modules) if you need them to verify the correctness of the PR. It is always better to pull in relevant context than to guess or assume.
-- **Surgical Inspection:** When exploring, read smartly. Minimize token usage by using grep or reading specific line ranges when dealing with large files, rather than pulling in massive files in their entirety just to check a single signature.
- specific line ranges when dealing with large files, rather than pulling in massive files in their entirety just to check a single signature.
+Retain plausible candidates until the relevant pass validates them. Ordinary reviews may use reviewer context; Hunk may hold revisable location-anchored notes when active. Create a temporary head-bound recovery snapshot only when interruption or state loss is a credible risk. Never require or commit a review-notes file, and never expose unvalidated speculation as author work.
+
+## Filter and synthesize
+
+Read [Finding Policy](references/finding-policy.md) before producing output. Omit candidates that lack a realistic material consequence, duplicate another pattern, express preference, belong to automation, or do not warrant author attention.
+
+Use [Review Result Template](assets/review-result-template.md) proportionally. Produce:
+
+- the exact reviewed identity and understood intent;
+- a concise material risk and evidence summary;
+- prioritized current-change findings;
+- valuable follow-up candidates kept visibly separate;
+- assumptions and material evidence gaps; and
+- one recommendation: `changes required`, `developer decision required`, or `ready candidate`.
+
+Do not narrate every check performed. Tiny and finding-free reviews should remain tiny.
+
+## Rereview the whole changeset
+
+After fixes, rebind the current head and review the complete base-to-head changeset. Revalidate earlier findings, inspect the fixes and their interactions, detect regressions or scope growth, and issue a new recommendation for the new identity. Retained reviewer context accelerates discovery but never turns rereview into a delta-only check.
+
+## Boundaries
+
+Do not:
+
+- modify source code or act as the author;
+- select non-blocking work for the developer;
+- create issues or expand the cohesive change;
+- publish Hunk or GitHub feedback without the applicable authorization and adapter;
+- update the pull-request description or readiness state except through the separate preparation skill after a successful current-head review and explicit authorization;
+- approve or merge on GitHub; or
+- treat CI success as proof of correctness.
+
+Review analysis remains medium-independent. Hunk and GitHub mechanics belong to their adapter skills.

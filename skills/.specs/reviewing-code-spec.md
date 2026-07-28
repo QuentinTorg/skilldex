@@ -4,13 +4,13 @@
 
 - **Goal:** Perform an independent, evidence-backed review of a pull request, branch, commit range, diff, or working-tree changeset and determine whether it is ready to leave the private review loop.
 - **Why revise the skill?** The current skill turns broad review concerns into nineteen mandatory production quotas, writes an audit record for every passed check, pauses after every phase, and treats a line-count heuristic as a user gate. These controls once protected weaker agents from shallow reviews, but now reward chatter, fragment senior-engineering reasoning, and encourage technically defensible yet immaterial comments that block or inflate cohesive changes.
-- **Desired disposition:** Preserve independent analytical phases for substantial reviews while treating their checks as applicability prompts. The reviewer earns every finding by demonstrating a concrete consequence, keeps unrelated improvements outside the current change, and approves net-improving code without demanding perfection.
+- **Desired disposition:** Preserve independent analytical phases for substantial reviews while treating their checks as applicability prompts. The reviewer earns every finding by demonstrating a concrete consequence, keeps unrelated improvements outside the current change, and recommends readiness when no known material in-scope defect remains without demanding perfection.
 - **Empirical evidence:**
   - The user reports repeated low-impact suggestions that are technically correct but do not affect the delivered behavior, meaningful maintainability, or merge risk.
   - Fixing agents tend to implement every recorded suggestion, causing review-driven scope growth.
   - Mandatory phase pauses and tracking documents make ordinary reviews chatty and slow.
   - Hunk now supplies a useful local diff and feedback surface that did not exist when the original tracking-file workflow was designed.
-  - The untracked `better-reviewing-code` draft demonstrates a promising high-signal disposition, proportional rigor, and net-improvement approval bar; it is reference material, not an implementation to copy wholesale.
+  - Minor testing of a separate high-signal draft reduced noise but missed real defects when its high-level focus and restraint narrowed the investigation itself.
 
 ## 2. Trigger Conditions
 
@@ -24,12 +24,13 @@
 1. **Bind review identity.** Record the exact base and head revisions or equivalent working-tree identity, repository instructions, stated intent, applicable linked requirements, and available verification evidence. Refresh if the changeset moves during review.
 2. **Scope before depth.** Map changed files, generated or low-value noise, critical paths, affected neighbors, and likely blast radius before loading detailed criteria. Size changes the inspection strategy but never automatically rejects or pauses a review.
 3. **Calibrate rigor.** Determine the software domain, reversibility, public or persistent contracts, safety implications, and uncertainty. A small high-impact change may warrant every phase; a large mechanical or comment-only change may not.
-4. **Perform adaptive independent phases.** Use orientation, architecture/integration, behavior/safety, and maintainability/verification as distinct analytical passes when applicable. There are no mandatory user pauses between phases. A candidate discovered in one phase may be carried forward and validated where it belongs.
-5. **Maintain a candidate ledger proportionally.** Ordinary reviews may retain candidates in reviewer context. Hunk may hold location-anchored notes when they can be revised before handoff. Create a temporary head-bound recovery snapshot only when review length, session interruption, or tool loss makes recovery materially valuable. Never require or commit a review-notes document.
-6. **Validate and filter candidates.** Before surfacing a finding, verify the code path, realistic trigger, consequence, relation to the current change, and smallest credible resolution direction. Deduplicate repeated patterns. Omit preference-only, theoretical, automated-style, and negligible-impact observations.
-7. **Classify meaningful findings.** Each finding records severity, current-change relevance, and resolution risk. Only concrete material in-scope problems justify `changes required`. Tangential or pre-existing concerns remain clearly separated follow-up candidates and never silently become current work.
-8. **Synthesize one coherent review.** Produce the reviewed identity, understood intent, concise risk summary, prioritized actionable findings, separately labeled follow-up candidates, evidence and gaps, assumptions, and one recommendation: `changes required`, `developer decision required`, or `ready candidate`.
-9. **Rereview completely.** After fixes, re-examine the full current base-to-head changeset, revalidate prior findings, detect regressions and scope growth, and issue a new recommendation bound to the new head.
+4. **Perform adaptive independent phases.** Use orientation, architecture/integration, behavior/safety, and maintainability/verification as distinct analytical passes when applicable. Orientation is the high-level first pass; later phases deliberately search for material issues it missed. There are no mandatory user pauses between phases. A candidate discovered in one phase may be carried forward and validated where it belongs.
+5. **Complete the correctness minimum.** Every behavior-changing review traces the changed behavior, affected callers and contracts, important boundaries and failure paths, state or resource lifecycle, and whether verification exercises the relevant contract. Other concerns remain applicability-driven.
+6. **Maintain a candidate ledger proportionally.** Ordinary reviews may retain candidates in reviewer context. Hunk may hold location-anchored notes when they can be revised before handoff. Create a temporary head-bound recovery snapshot only when review length, session interruption, or tool loss makes recovery materially valuable. Never require or commit a review-notes document.
+7. **Validate and filter candidates.** Before surfacing a finding, verify the code path, realistic trigger, consequence, relation to the current change, and smallest credible resolution direction. Reproduction strengthens a finding but is not mandatory when inspected code and a credible traced failure scenario provide sufficient evidence. Deduplicate repeated patterns. Omit preference-only, theoretical, automated-style, and negligible-impact observations.
+8. **Classify meaningful findings.** Each finding records severity, current-change relevance, and resolution risk. Only concrete material in-scope problems justify `changes required`. Tangential or pre-existing concerns remain clearly separated follow-up candidates and never silently become current work.
+9. **Synthesize one coherent review.** Produce the reviewed identity, understood intent, concise risk summary, prioritized actionable findings, separately labeled follow-up candidates, evidence and gaps, assumptions, and one recommendation: `changes required`, `developer decision required`, or `ready candidate`.
+10. **Rereview completely.** After fixes, re-examine the full current base-to-head changeset, revalidate prior findings, detect regressions and scope growth, and issue a new recommendation bound to the new head.
 
 ## 4. Finding Thresholds, Edge Cases & Negative Boundaries
 
@@ -44,11 +45,14 @@ A finding earns the author's attention only when it is supported and one or more
 
 Do not surface a comment merely because another implementation is cleaner, more idiomatic, more generic, more defensive, or theoretically more scalable. Low-impact technically valid suggestions are omitted by default. A valuable concern outside the cohesive change may be a follow-up candidate, but the reviewer does not request its implementation or create an issue.
 
+Noise control applies after investigation, not before it. The reviewer may consider many concerns and retain multiple internal candidates while producing a sparse final review. A passing CI run or existing test suite is evidence, not permission to skip tracing the changed contract.
+
 ### Adaptive Phases
 
 - Checks are prompts to consider, not output requirements.
 - Record inapplicability only when skipping a major concern would otherwise be surprising.
 - Preserve phase independence without cross-phase blinders: candidates may be noticed early, but must be validated coherently before output.
+- Treat the high-level orientation pass as hypothesis formation, not a substitute for the later correctness and verification passes.
 - Pause only for a decision that blocks responsible progress, such as uncertain target, irreconcilable intent, fundamental scope mismatch, or authorization for costly or state-changing verification.
 
 ### Review State and Hunk
@@ -76,8 +80,9 @@ The reviewer never:
 
 - **Reported failure:** The review produces many minor comments, and the authoring agent interprets them all as required fixes.
 - **Mechanism:** Mandatory checks, mandatory positive/negative logging, suggestion-oriented severity, and phase-by-phase presentation make output volume look like thoroughness and erase the distinction between material defects and optional ideas.
+- **Counter-failure:** A quieter, high-level reviewer misses real bugs because it applies the publication threshold while deciding what to investigate and treats architectural orientation as sufficient coverage.
 - **Expected behavior:** Deep internal consideration yields sparse external output. The reviewer may inspect many concerns and report none when the change is sound.
-- **Generalization:** Review quality is measured by material risk found and accurately prioritized, not by phase count, comment count, or changes induced.
+- **Generalization:** Review quality requires both recall and precision: broad, phase-independent investigation finds material risk, while strict synthesis accurately prioritizes it without comment noise.
 
 ## 5. Architecture & Progressive Disclosure Plan
 
@@ -88,6 +93,7 @@ The reviewer never:
 - **`references/maintainability-and-verification.md`:** Applicable prompts for abstraction value, redundancy, clarity, tests, comments, documentation, omissions, dead artifacts, and empirical verification.
 - **`references/finding-policy.md`:** High-signal admission test; evidence standard; severity, current-change relevance, and resolution-risk vocabulary; deduplication; follow-up separation; recommendation rules.
 - **`assets/review-result-template.md`:** Compact medium-independent result and finding structure. Sections are omitted when empty, and tiny reviews collapse to a verdict plus material evidence.
+- **`evals/evals.md`:** Trigger, de-noising, bug-detection, rereview, and boundary scenarios with concrete assertions. It remains a test plan until a shared harness is justified.
 - **Removed from analytical core:** `gh-cli-guide.md`, mandatory tracking-file formats, hard phase holds, the nineteen-item checklist, and the 400-line gate. Hunk and GitHub command mechanics remain in adapter skills.
 - **Scripts:** None. Repository exploration and verification vary by language and project; repeated mechanical behavior should be added only after real use demonstrates a stable need.
 
@@ -108,6 +114,7 @@ The reviewer never:
 - **Large mechanical refactor:** Chunk context intelligently without invoking a line-count gate or manufacturing findings to justify review effort.
 - **Tangential issue:** Keep a valuable pre-existing problem separate as a follow-up candidate; do not block or recommend fixing it in the current change.
 - **Preference-only alternative:** Omit a technically valid alternative when the submitted implementation is correct, maintainable in context, and does not create material cost.
+- **Architectural pass misses a bug:** Continue through behavior/safety, trace the affected path, and surface the material defect even when orientation found no structural concern.
 - **Hunk interruption:** Use live Hunk for validated findings and create a head-bound recovery snapshot only when session loss becomes a credible risk.
 - **Rereview:** Review the complete new base-to-head diff, not only previously commented lines, and bind the new recommendation to the new head.
 
@@ -117,6 +124,7 @@ The reviewer never:
 - No phase requires a user pause when review can proceed responsibly.
 - No fixed line count blocks review.
 - Checks that do not apply produce neither findings nor mandatory audit prose.
+- Every behavior-changing review completes the correctness minimum after orientation.
 - Every surfaced finding states a concrete consequence and evidence or uncertainty.
 - Low-impact preference and style suggestions are omitted by default.
 - Follow-up candidates are visibly separate and never counted as current-change blockers.
