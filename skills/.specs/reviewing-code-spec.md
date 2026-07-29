@@ -4,7 +4,7 @@
 
 - **Goal:** Perform an independent, evidence-backed review of a pull request, branch, commit range, diff, or working-tree changeset and determine whether it is ready to leave the private review loop.
 - **Why revise the skill?** The current skill turns broad review concerns into nineteen mandatory production quotas, writes an audit record for every passed check, pauses after every phase, and treats a line-count heuristic as a user gate. These controls once protected weaker agents from shallow reviews, but now reward chatter, fragment senior-engineering reasoning, and encourage technically defensible yet immaterial comments that block or inflate cohesive changes.
-- **Desired disposition:** Preserve independent analytical phases for substantial reviews while treating their checks as applicability prompts. The reviewer earns every finding by demonstrating a concrete consequence, keeps unrelated improvements outside the current change, and recommends readiness when no known material in-scope defect remains without demanding perfection.
+- **Desired disposition:** Preserve serial, independent analytical phases while treating their checks as applicability prompts. Each pass concentrates on one review lens without becoming blind to candidates owned by another pass. The reviewer earns every finding by demonstrating a concrete consequence, keeps unrelated improvements outside the current change, and recommends readiness when no known material in-scope defect remains without demanding perfection.
 - **Empirical evidence:**
   - The user reports repeated low-impact suggestions that are technically correct but do not affect the delivered behavior, meaningful maintainability, or merge risk.
   - Fixing agents tend to implement every recorded suggestion, causing review-driven scope growth.
@@ -25,7 +25,7 @@
 1. **Bind review identity and context.** Record the exact base and head revisions or equivalent working-tree identity, repository instructions, stated intent, applicable linked requirements, and available verification evidence. For pull requests, acquire the native description, relevant human discussion, existing reviews, and inline threads before deep analysis. Refresh if the changeset moves during review.
 2. **Scope before depth.** Map changed files, generated or low-value noise, critical paths, affected neighbors, and likely blast radius before loading detailed criteria. Size changes the inspection strategy but never automatically rejects or pauses a review.
 3. **Calibrate rigor.** Determine the software domain, reversibility, public or persistent contracts, safety implications, and uncertainty. A small high-impact change may warrant every phase; a large mechanical or comment-only change may not.
-4. **Perform adaptive independent phases.** Use orientation, architecture/integration, behavior/safety, and maintainability/verification as distinct analytical passes when applicable. Orientation is the high-level first pass; later phases deliberately search for material issues it missed. There are no mandatory user pauses between phases. A candidate discovered in one phase may be carried forward and validated where it belongs.
+4. **Perform serial independent phases.** Complete orientation first, then perform applicable architecture/integration, behavior/safety, and maintainability/verification passes in that order. Enter one pass at a time, load its detailed guidance when entering it, finish its focused investigation, and record candidates before moving on. There are no mandatory user pauses between passes. A candidate noticed outside the current lens is retained and validated in its owning pass rather than chased immediately or discarded.
 5. **Complete the correctness minimum.** Every behavior-changing review traces the changed behavior, affected callers and contracts, important boundaries and failure paths, state or resource lifecycle, and whether verification exercises the relevant contract. Other concerns remain applicability-driven.
 6. **Maintain a candidate ledger proportionally.** Ordinary reviews may retain candidates in reviewer context. Hunk may hold location-anchored notes when they can be revised before handoff. Create a temporary head-bound recovery snapshot only when review length, session interruption, or tool loss makes recovery materially valuable. Never require or commit a review-notes document.
 7. **Validate and filter candidates.** Before surfacing a finding, verify the code path, realistic trigger, consequence, relation to the current change, and smallest credible resolution direction. Reproduction strengthens a finding but is not mandatory when inspected code and a credible traced failure scenario provide sufficient evidence. Deduplicate repeated patterns. Omit preference-only, theoretical, automated-style, and negligible-impact observations.
@@ -48,13 +48,20 @@ Do not surface a comment merely because another implementation is cleaner, more 
 
 Noise control applies after investigation, not before it. The reviewer may consider many concerns and retain multiple internal candidates while producing a sparse final review. A passing CI run or existing test suite is evidence, not permission to skip tracing the changed contract.
 
-### Adaptive Phases
+### Serial Adaptive Phases
 
+- Complete one analytical pass before beginning the next. Load detailed pass guidance on entry rather than reading every phase reference up front and blending the review into one sweep.
 - Checks are prompts to consider, not output requirements.
 - Record inapplicability only when skipping a major concern would otherwise be surprising.
 - Preserve phase independence without cross-phase blinders: candidates may be noticed early, but must be validated coherently before output.
 - Treat the high-level orientation pass as hypothesis formation, not a substitute for the later correctness and verification passes.
 - Pause only for a decision that blocks responsible progress, such as uncertain target, irreconcilable intent, fundamental scope mismatch, or authorization for costly or state-changing verification.
+
+### Reading Scope
+
+- The changeset defines which consequences can become current-change findings; it does not limit which code the reviewer may inspect.
+- Read unchanged callers, consumers, producers, contracts, parallel paths, configuration, and other connected code whenever needed to understand integration or behavior.
+- Follow connections far enough to validate the affected contract and realistic consequence without turning the review into an unrelated repository-wide audit.
 
 ### Review State and Hunk
 
@@ -95,8 +102,8 @@ The reviewer never:
 
 ## 5. Architecture & Progressive Disclosure Plan
 
-- **`SKILL.md`:** Trigger boundary; review identity; proportional workflow checklist; adaptive phase router; candidate filtering; synthesis and rereview contracts; global prohibitions. It does not contain the detailed concern catalog or tool-specific commands.
-- **`references/orientation-and-scope.md`:** Domain calibration, pull-request context acquisition, intent reconstruction, exact changeset identity, scope mapping, affected-neighbor discovery, blast radius, and proportional phase selection.
+- **`SKILL.md`:** Trigger boundary; review identity; proportional workflow checklist; serial phase router; candidate filtering; synthesis and rereview contracts; global prohibitions. It does not contain the detailed concern catalog or tool-specific commands.
+- **`references/orientation-and-scope.md`:** Domain calibration, pull-request context acquisition, intent reconstruction, exact changeset identity, changed-file mapping, connected-code reading scope, blast radius, and proportional phase selection.
 - **`references/architecture-and-integration.md`:** Applicable prompts for architectural placement, interfaces, compatibility, dependencies, cross-component effects, deployment, and reversibility.
 - **`references/behavior-and-safety.md`:** Applicable prompts for control and data flow, boundaries, failure paths, concurrency, resources, security, domain invariants, scaling, and operability.
 - **`references/maintainability-and-verification.md`:** Applicable prompts for abstraction value, redundancy, clarity, tests, comments, documentation, omissions, dead artifacts, and empirical verification.
@@ -127,6 +134,8 @@ The reviewer never:
 - **Hunk interruption:** Use live Hunk for validated findings and create a head-bound recovery snapshot only when session loss becomes a credible risk.
 - **Rereview:** Review the complete new base-to-head diff, not only previously commented lines, and bind the new recommendation to the new head.
 - **Intent clarified in discussion:** Acquire the pull-request description and relevant discussion, distinguish an authoritative clarification from prior reviewer opinion, and review against the clarified intent without inheriting earlier conclusions.
+- **Serial phase focus:** Complete each applicable pass in order, loading and applying only its detailed guidance while active; carry cross-pass candidates forward without collapsing the passes.
+- **Connected unchanged code:** Trace a changed contract into unchanged callers and consumers when necessary to detect a material integration failure; do not treat the diff as the reading boundary.
 
 ### Assertions
 
@@ -136,6 +145,8 @@ The reviewer never:
 - Checks that do not apply produce neither findings nor mandatory audit prose.
 - Every behavior-changing review completes the correctness minimum after orientation.
 - Every pull-request review acquires available native context needed to establish intent, decisions, prior claims, and material ambiguity before deep analysis.
+- Applicable analytical passes execute serially without mandatory user pauses or one blended all-concerns sweep.
+- Reviewers inspect unchanged connected code when necessary to determine the changeset's behavior and integration.
 - Every surfaced finding states a concrete consequence and evidence or uncertainty.
 - Low-impact preference and style suggestions are omitted by default.
 - Follow-up candidates are visibly separate and never counted as current-change blockers.

@@ -29,6 +29,8 @@ If authoritative sources conflict materially, label the conflict and ask for cla
 
 ## Map the change before reading deeply
 
+The changeset limits which consequences belong to the current review; it does not limit what may be read. Inspect unchanged callers, consumers, producers, contracts, base abstractions, parallel paths, configuration, and build wiring when they are needed to understand how the change integrates or behaves. Follow connections far enough to establish the affected contract without turning the review into a general audit of unrelated code.
+
 Inspect the complete changed-file set and distinguish:
 
 - behavior and critical-path logic;
@@ -70,8 +72,12 @@ Carry plausible concerns into the candidate ledger. Do not publish them until th
 
 ## Select subsequent depth
 
-- Read [Architecture and Integration](architecture-and-integration.md) when structure, interfaces, dependencies, persistence, deployment, or cross-component behavior may be affected.
-- Read [Behavior and Safety](behavior-and-safety.md) for every behavior-changing change; expand into its domain-specific prompts as applicable.
-- Read [Maintainability and Verification](maintainability-and-verification.md) for implementation or test changes and whenever maintainability, completeness, or evidence affects readiness.
+After completing orientation, enter each applicable pass in order:
 
-Record an omitted major pass only when its inapplicability would not otherwise be obvious.
+1. Read [Architecture and Integration](architecture-and-integration.md) when structure, interfaces, dependencies, persistence, deployment, or cross-component behavior may be affected. Complete that focused pass before moving on.
+2. Read [Behavior and Safety](behavior-and-safety.md) for every behavior-changing change; expand into its domain-specific prompts as applicable, then complete the correctness pass.
+3. Read [Maintainability and Verification](maintainability-and-verification.md) for implementation or test changes and whenever maintainability, completeness, or evidence affects readiness. Complete it before final synthesis.
+
+Load a pass's detailed guidance when entering it rather than preloading all phase references. Focus on the active lens. If another kind of concern becomes visible, retain the candidate and validate it during its owning pass instead of chasing it immediately or ignoring it.
+
+Record an omitted major pass only when its inapplicability would not otherwise be obvious. Phase boundaries are internal review discipline, not user approval gates.

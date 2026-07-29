@@ -37,15 +37,21 @@ Read [Orientation and Scope](references/orientation-and-scope.md) first. Establi
 
 For a pull request, acquire its native description, relevant human discussion, existing reviews, inline threads, and linked requirements before deep analysis. Do not treat earlier reviewer opinions as verified intent or substitute them for independent judgment.
 
+The changeset bounds which consequences belong to the review, not what may be read. Inspect unchanged callers, consumers, producers, contracts, parallel paths, configuration, and other connected code whenever needed to understand how the submitted change integrates and behaves.
+
 Phase 0 is a high-level architectural pass. It forms hypotheses and finds high-leverage concerns; it is not permission to skip the independent passes that catch issues it misses.
 
-## Perform adaptive independent passes
+## Perform serial independent passes
 
-- Read [Architecture and Integration](references/architecture-and-integration.md) when the change can affect structure, interfaces, compatibility, dependencies, persistence, deployment, or other components.
-- Read [Behavior and Safety](references/behavior-and-safety.md) for every behavior-changing change. Trace the changed contract, callers, boundaries, failure paths, state and resource lifecycle, and relevant domain hazards even when orientation found no concern.
-- Read [Maintainability and Verification](references/maintainability-and-verification.md) for implementation or test changes and whenever completeness or evidence affects readiness.
+After completing orientation, enter each applicable pass in order. Read that pass's reference when entering it, finish its focused investigation, and record candidates before moving to the next:
 
-These are independent analytical passes, not quotas. Skip concerns that genuinely cannot apply, but do not use high-level confidence, green CI, change size, or desired brevity to suppress deeper investigation.
+1. Read [Architecture and Integration](references/architecture-and-integration.md) when the change can affect structure, interfaces, compatibility, dependencies, persistence, deployment, or other components.
+2. Read [Behavior and Safety](references/behavior-and-safety.md) for every behavior-changing change. Trace the changed contract, callers, boundaries, failure paths, state and resource lifecycle, and relevant domain hazards even when orientation found no concern.
+3. Read [Maintainability and Verification](references/maintainability-and-verification.md) for implementation or test changes and whenever completeness or evidence affects readiness.
+
+Do not preload every pass reference and collapse the work into one blended sweep. Focus on the active lens. When another kind of concern becomes visible, retain it for validation during its owning pass rather than chasing it immediately or discarding it.
+
+These are independent analytical passes, not quotas or user approval gates. Skip concerns that genuinely cannot apply, but do not use high-level confidence, green CI, change size, or desired brevity to suppress deeper investigation.
 
 Retain plausible candidates until the relevant pass validates them. Ordinary reviews may use reviewer context; Hunk may hold revisable location-anchored notes when active. Create a temporary head-bound recovery snapshot only when interruption or state loss is a credible risk. Never require or commit a review-notes file, and never expose unvalidated speculation as author work.
 
