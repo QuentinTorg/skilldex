@@ -11,6 +11,7 @@
   - Mandatory phase pauses and tracking documents make ordinary reviews chatty and slow.
   - Hunk now supplies a useful local diff and feedback surface that did not exist when the original tracking-file workflow was designed.
   - Minor testing of a separate high-signal draft reduced noise but missed real defects when its high-level focus and restraint narrowed the investigation itself.
+  - Agents reviewing a GitHub pull request may inspect its diff without acquiring the description and discussion that establish intent, decisions, and unresolved context unless that expectation is explicit.
 
 ## 2. Trigger Conditions
 
@@ -21,7 +22,7 @@
 
 ## 3. Workflow & Procedural Constraints
 
-1. **Bind review identity.** Record the exact base and head revisions or equivalent working-tree identity, repository instructions, stated intent, applicable linked requirements, and available verification evidence. Refresh if the changeset moves during review.
+1. **Bind review identity and context.** Record the exact base and head revisions or equivalent working-tree identity, repository instructions, stated intent, applicable linked requirements, and available verification evidence. For pull requests, acquire the native description, relevant human discussion, existing reviews, and inline threads before deep analysis. Refresh if the changeset moves during review.
 2. **Scope before depth.** Map changed files, generated or low-value noise, critical paths, affected neighbors, and likely blast radius before loading detailed criteria. Size changes the inspection strategy but never automatically rejects or pauses a review.
 3. **Calibrate rigor.** Determine the software domain, reversibility, public or persistent contracts, safety implications, and uncertainty. A small high-impact change may warrant every phase; a large mechanical or comment-only change may not.
 4. **Perform adaptive independent phases.** Use orientation, architecture/integration, behavior/safety, and maintainability/verification as distinct analytical passes when applicable. Orientation is the high-level first pass; later phases deliberately search for material issues it missed. There are no mandatory user pauses between phases. A candidate discovered in one phase may be carried forward and validated where it belongs.
@@ -62,6 +63,14 @@ Noise control applies after investigation, not before it. The reviewer may consi
 - If Hunk state may be lost, save a temporary normalized snapshot tied to the reviewed head. The snapshot is recovery state, not a committed audit artifact.
 - GitHub and Hunk mechanics belong to adapter skills. The analytical skill produces the same normalized result for either medium.
 
+### Pull-Request Context and Intent
+
+- A pull-request review includes its native context, not only its diff. Read the title and description, linked requirements, relevant human discussion, existing reviews, inline threads, and available verification evidence before deep analysis.
+- Human-authoritative clarifications may refine stated intent. Previous reviewer comments remain claims and evidence unless an authorized decision explicitly adopts them.
+- Do not inherit another reviewer's conclusion or let existing comments narrow independent investigation.
+- When authoritative sources materially conflict or intent remains ambiguous, label the conflict and obtain clarification instead of silently choosing the interpretation that best matches the code.
+- Context acquisition is required review reasoning; tool-specific GitHub commands remain outside the analytical skill.
+
 ### Negative Boundaries
 
 The reviewer never:
@@ -87,7 +96,7 @@ The reviewer never:
 ## 5. Architecture & Progressive Disclosure Plan
 
 - **`SKILL.md`:** Trigger boundary; review identity; proportional workflow checklist; adaptive phase router; candidate filtering; synthesis and rereview contracts; global prohibitions. It does not contain the detailed concern catalog or tool-specific commands.
-- **`references/orientation-and-scope.md`:** Domain calibration, intent reconstruction, exact changeset identity, scope mapping, affected-neighbor discovery, blast radius, and proportional phase selection.
+- **`references/orientation-and-scope.md`:** Domain calibration, pull-request context acquisition, intent reconstruction, exact changeset identity, scope mapping, affected-neighbor discovery, blast radius, and proportional phase selection.
 - **`references/architecture-and-integration.md`:** Applicable prompts for architectural placement, interfaces, compatibility, dependencies, cross-component effects, deployment, and reversibility.
 - **`references/behavior-and-safety.md`:** Applicable prompts for control and data flow, boundaries, failure paths, concurrency, resources, security, domain invariants, scaling, and operability.
 - **`references/maintainability-and-verification.md`:** Applicable prompts for abstraction value, redundancy, clarity, tests, comments, documentation, omissions, dead artifacts, and empirical verification.
@@ -117,6 +126,7 @@ The reviewer never:
 - **Architectural pass misses a bug:** Continue through behavior/safety, trace the affected path, and surface the material defect even when orientation found no structural concern.
 - **Hunk interruption:** Use live Hunk for validated findings and create a head-bound recovery snapshot only when session loss becomes a credible risk.
 - **Rereview:** Review the complete new base-to-head diff, not only previously commented lines, and bind the new recommendation to the new head.
+- **Intent clarified in discussion:** Acquire the pull-request description and relevant discussion, distinguish an authoritative clarification from prior reviewer opinion, and review against the clarified intent without inheriting earlier conclusions.
 
 ### Assertions
 
@@ -125,6 +135,7 @@ The reviewer never:
 - No fixed line count blocks review.
 - Checks that do not apply produce neither findings nor mandatory audit prose.
 - Every behavior-changing review completes the correctness minimum after orientation.
+- Every pull-request review acquires available native context needed to establish intent, decisions, prior claims, and material ambiguity before deep analysis.
 - Every surfaced finding states a concrete consequence and evidence or uncertainty.
 - Low-impact preference and style suggestions are omitted by default.
 - Follow-up candidates are visibly separate and never counted as current-change blockers.
