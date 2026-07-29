@@ -21,7 +21,7 @@ Use concise, neutral engineering language. This is a decision policy, not a revi
 
 Copy this checklist into internal reasoning or temporary scratch state and complete it without mandatory user pauses:
 
-- [ ] Bind the exact review identity and intent.
+- [ ] Bind the exact review identity, intent, and source context.
 - [ ] Complete orientation and scope mapping.
 - [ ] Perform applicable architecture and integration analysis.
 - [ ] Complete the behavior and safety minimum for every behavior-changing change.
@@ -34,6 +34,8 @@ Pause only when responsible progress requires a developer decision or authorizat
 ## Bind and orient
 
 Read [Orientation and Scope](references/orientation-and-scope.md) first. Establish the exact base and head or equivalent working-tree identity, reliable intent, repository instructions, complete changed-file scope, relevant neighboring code, available evidence, domain, and blast radius.
+
+For a pull request, acquire its native description, relevant human discussion, existing reviews, inline threads, and linked requirements before deep analysis. Do not treat earlier reviewer opinions as verified intent or substitute them for independent judgment.
 
 Phase 0 is a high-level architectural pass. It forms hypotheses and finds high-leverage concerns; it is not permission to skip the independent passes that catch issues it misses.
 

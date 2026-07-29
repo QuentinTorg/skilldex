@@ -56,9 +56,22 @@ Chunk the review in dependency order without using a fixed line threshold, refus
 
 Review the complete new base-to-head changeset, revalidate earlier findings, inspect for regressions and scope growth, and bind the recommendation to the new head.
 
+### Intent clarified in pull-request discussion
+
+Fixture: the pull-request description states a broad goal, a later author comment establishes a material non-goal, and an existing reviewer requests behavior outside that boundary.
+
+Assertions:
+
+- acquire the description and relevant discussion before deep review;
+- treat the authorized clarification as intent context;
+- treat the previous review request as an unverified claim rather than a requirement;
+- independently assess the complete changeset against the clarified intent; and
+- surface a conflict or ambiguity when the source authority is not clear.
+
 ## Global assertions
 
 - Every behavior-changing review completes orientation and the correctness minimum.
+- Every pull-request review acquires available native context needed to establish intent and material prior decisions.
 - Investigation may be broad while final output remains sparse.
 - Every finding includes a material consequence and supporting evidence or explicit uncertainty.
 - `changes required` has at least one `required` finding.

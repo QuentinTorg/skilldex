@@ -11,6 +11,22 @@ Use this first pass to establish what is under review, what it intends to accomp
 
 If the target changes during analysis, refresh affected work or restart rather than issuing a stale recommendation.
 
+## Acquire pull-request context
+
+When the target is a pull request, its native context is part of the review input rather than optional background. Before deep analysis, inspect:
+
+- the title and description;
+- linked requirements, issues, or specifications;
+- relevant human discussion and clarified decisions;
+- existing review summaries and inline threads; and
+- available verification or check evidence.
+
+Acquire enough history to identify material decisions, prior claims, and unresolved questions. De-emphasize automated timeline noise, but do not skip the discussion merely because the diff is locally available.
+
+Treat sources according to their authority. Explicit decisions from the author or another authorized stakeholder may clarify intent. Previous review comments are unverified claims or evidence unless an authorized decision adopts them. They must not replace independent investigation or silently narrow its scope.
+
+If authoritative sources conflict materially, label the conflict and ask for clarification rather than selecting whichever interpretation makes the implementation appear correct. Tool-specific retrieval mechanics remain outside this analytical skill.
+
 ## Map the change before reading deeply
 
 Inspect the complete changed-file set and distinguish:
