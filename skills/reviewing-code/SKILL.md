@@ -76,14 +76,17 @@ After fixes, rebind the current head and review the complete base-to-head change
 
 ## Boundaries
 
+Completing the analysis does not mutate GitHub. The same reviewer may honor an explicit request to publish the review, including with an approving GitHub event even when unresolved findings remain. Publication does not rewrite the technical conclusion or authorize merge.
+
 Do not:
 
 - modify source code or act as the author;
 - select non-blocking work for the developer;
 - create issues or expand the cohesive change;
-- publish Hunk or GitHub feedback without the applicable authorization and adapter;
+- publish Hunk or GitHub feedback without explicit authorization;
 - update the pull-request description or readiness state except through the separate preparation skill after a successful current-head review and explicit authorization;
-- approve or merge on GitHub; or
+- approve automatically or without explicit authorization;
+- merge or enable auto-merge on GitHub; or
 - treat CI success as proof of correctness.
 
-Review analysis remains medium-independent. Hunk and GitHub mechanics belong to their adapter skills.
+Review analysis remains medium-independent. Publication is a separately authorized GitHub interaction, not an automatic consequence of the recommendation.

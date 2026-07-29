@@ -12,6 +12,7 @@
   - Hunk now supplies a useful local diff and feedback surface that did not exist when the original tracking-file workflow was designed.
   - Minor testing of a separate high-signal draft reduced noise but missed real defects when its high-level focus and restraint narrowed the investigation itself.
   - Agents reviewing a GitHub pull request may inspect its diff without acquiring the description and discussion that establish intent, decisions, and unresolved context unless that expectation is explicit.
+  - A blanket prohibition on GitHub approval causes reviewer agents to refuse an explicit publication request, even though the developer may intentionally approve while accepting known findings.
 
 ## 2. Trigger Conditions
 
@@ -78,6 +79,13 @@ Noise control applies after investigation, not before it. The reviewer may consi
 - When authoritative sources materially conflict or intent remains ambiguous, label the conflict and obtain clarification instead of silently choosing the interpretation that best matches the code.
 - Context acquisition is required review reasoning; tool-specific GitHub commands remain outside the analytical skill.
 
+### Authorized Review Publication
+
+- Producing a review recommendation does not mutate GitHub or authorize publication.
+- The same reviewer may honor an explicit request to publish the review, including with an approving GitHub event even when its analytical recommendation identifies unresolved findings.
+- Publication does not rewrite or suppress the reviewer's technical conclusion; the developer controls the requested GitHub review event.
+- Review publication does not authorize merge, auto-merge, pull-request finalization, or any other lifecycle mutation.
+
 ### Negative Boundaries
 
 The reviewer never:
@@ -89,7 +97,8 @@ The reviewer never:
 - posts Hunk or GitHub feedback without the applicable authorization;
 - changes the pull-request description or readiness state except through the separate preparation skill after a successful review and explicit authorization;
 - treats CI success as proof of correctness;
-- approves or merges on GitHub; or
+- automatically approves or publishes feedback without explicit authorization;
+- merges or enables auto-merge on GitHub; or
 - uses a fixed line-count threshold as a reason to refuse review.
 
 ### Failure Analysis
@@ -136,6 +145,7 @@ The reviewer never:
 - **Intent clarified in discussion:** Acquire the pull-request description and relevant discussion, distinguish an authoritative clarification from prior reviewer opinion, and review against the clarified intent without inheriting earlier conclusions.
 - **Serial phase focus:** Complete each applicable pass in order, loading and applying only its detailed guidance while active; carry cross-pass candidates forward without collapsing the passes.
 - **Connected unchanged code:** Trace a changed contract into unchanged callers and consumers when necessary to detect a material integration failure; do not treat the diff as the reading boundary.
+- **Explicit approval publication:** Honor an explicit request to publish an approving review even when unresolved findings remain; preserve the technical review result and do not infer merge authority.
 
 ### Assertions
 
@@ -153,4 +163,4 @@ The reviewer never:
 - `changes required` is supported by at least one material in-scope finding.
 - `ready candidate` identifies the exact reviewed head and does not mutate GitHub state.
 - No committed tracking document is required.
-- The reviewer does not edit code, publish feedback, approve, or merge.
+- The reviewer does not edit code, publish feedback or approval automatically or without explicit authorization, or merge.
