@@ -68,10 +68,36 @@ Assertions:
 - independently assess the complete changeset against the clarified intent; and
 - surface a conflict or ambiguity when the source authority is not clear.
 
+### Serial phase focus
+
+Fixture: a behavior-changing pull request has architectural, correctness, and verification implications.
+
+Assertions:
+
+- complete orientation before entering a detailed pass;
+- enter applicable architecture, behavior, and maintainability passes in order;
+- load and apply each pass's detailed guidance when that pass begins rather than preloading all phase references;
+- finish the active lens before moving to the next pass;
+- retain a cross-pass candidate for validation by its owning pass; and
+- synthesize findings only after all applicable passes complete.
+
+### Connected unchanged code
+
+Fixture: a changed function is locally plausible, but an unchanged caller relies on the previous contract and now mishandles its result.
+
+Assertions:
+
+- inspect the unchanged caller and relevant contract even though they are outside the diff;
+- trace the realistic integration consequence;
+- surface the issue when it is material and introduced or exposed by the changeset; and
+- do not expand into a general audit of unrelated unchanged code.
+
 ## Global assertions
 
 - Every behavior-changing review completes orientation and the correctness minimum.
 - Every pull-request review acquires available native context needed to establish intent and material prior decisions.
+- Applicable analytical passes complete serially, with detailed guidance loaded on entry and no mandatory user pause.
+- The diff limits current-change relevance, not access to connected code needed for review.
 - Investigation may be broad while final output remains sparse.
 - Every finding includes a material consequence and supporting evidence or explicit uncertainty.
 - `changes required` has at least one `required` finding.
