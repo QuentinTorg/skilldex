@@ -9,9 +9,10 @@ Agent skills are a lightweight, open format for extending AI CLI agents (like Ge
 
 ## Available Skills
 
-- **[addressing-review-feedback](./skills/addressing-review-feedback/)**: Systematically process code review comments and PR feedback. It prevents runaway coding by forcing a strict categorization (Action, Risk, Impact) and requires explicit user approval on a resolution plan before modifying any code.
 - **[building-skills](./skills/building-skills/)**: Mentors and guides users in creating, critiquing, reviewing, and improving agent skills using a rigorous, 6-step granular workflow.
-- **[reviewing-code](./skills/reviewing-code/)**: Use this skill whenever you need to review a Pull Request, branch, or perform a deep technical inspection of code. It guides the agent through a methodical, interactive review process.
+- **[preparing-pull-requests](./skills/preparing-pull-requests/)**: Creates intent-focused draft pull requests for authored changes and, when explicitly authorized, finalizes successfully reviewed pull requests.
+- **[resolving-findings](./skills/resolving-findings/)**: Helps the original author resolve selected review findings with bounded, intent-preserving changes before returning the complete changeset for rereview.
+- **[reviewing-code](./skills/reviewing-code/)**: Performs phased, medium-independent reviews that investigate broadly while reporting only material, evidence-backed findings.
 - **[writing-specifications](./skills/writing-specifications/)**: Teach the agent to act as an architectural sounding board and expert technical writer to brainstorm, structure, and iteratively draft high-quality design documents and specifications from scratch or messy notes.
 
 ## How to Use This Repository

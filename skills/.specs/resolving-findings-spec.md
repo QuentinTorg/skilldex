@@ -89,7 +89,7 @@ Separately explicit requests for reversible Git or adapter actions may be handle
 - **`assets/resolution-result-template.md`:** Compact per-finding status and changeset handoff structure. Empty sections are omitted.
 - **`evals/evals.md`:** Trigger near misses, routine autonomy, judgment escalation, stale and conflicting findings, scope pressure, Hunk selection, verification, and external-action boundaries. It remains a test plan until a shared harness is justified.
 - **Scripts:** None. Finding sources, build systems, and verification commands vary by repository; Hunk and GitHub commands remain in adapter skills.
-- **Migration boundary:** Create `resolving-findings` without modifying or deleting `addressing-review-feedback`. Retire the old skill only after the complete workflow has been exercised and the user explicitly chooses migration timing.
+- **Migration:** `resolving-findings` supersedes the retired `addressing-review-feedback` skill.
 
 ## 6. Testing & Assertions
 
