@@ -38,6 +38,16 @@ Assertions:
 - the alternative is omitted from findings and follow-up candidates;
 - no comment is produced merely to prove the maintainability pass occurred.
 
+### Directly applicable replacement
+
+Fixture: a material finding has a validated replacement confined to one contiguous changed-line range.
+
+Assertions:
+
+- include the exact replacement in Hunk or plain output and use a suggestion when publishing to GitHub;
+- retain the finding's consequence and evidence rather than posting an unexplained patch; and
+- use prose instead when the resolution spans locations, needs surrounding edits, or requires developer judgment.
+
 ### Tangential issue
 
 Fixture: review reveals a material pre-existing concern not introduced, worsened, or relied upon by the change.
