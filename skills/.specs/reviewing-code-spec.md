@@ -146,6 +146,7 @@ The reviewer never:
 - **Serial phase focus:** Complete each applicable pass in order, loading and applying only its detailed guidance while active; carry cross-pass candidates forward without collapsing the passes.
 - **Connected unchanged code:** Trace a changed contract into unchanged callers and consumers when necessary to detect a material integration failure; do not treat the diff as the reading boundary.
 - **Explicit approval publication:** Honor an explicit request to publish an approving review even when unresolved findings remain; preserve the technical review result and do not infer merge authority.
+- **Applicable replacements:** Include a directly applicable replacement for small, validated, contiguous fixes; use prose for multi-location or judgment-dependent resolution.
 
 ### Assertions
 
@@ -158,6 +159,7 @@ The reviewer never:
 - Applicable analytical passes execute serially without mandatory user pauses or one blended all-concerns sweep.
 - Reviewers inspect unchanged connected code when necessary to determine the changeset's behavior and integration.
 - Every surfaced finding states a concrete consequence and evidence or uncertainty.
+- Small validated replacements use the active medium's directly applicable form without turning broader fixes into misleading patches.
 - Low-impact preference and style suggestions are omitted by default.
 - Follow-up candidates are visibly separate and never counted as current-change blockers.
 - `changes required` is supported by at least one material in-scope finding.

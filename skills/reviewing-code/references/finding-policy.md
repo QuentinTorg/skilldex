@@ -41,4 +41,6 @@ Readiness does not require perfection or unrelated cleanup. Aggregate net improv
 
 Use concise, neutral engineering language. A useful finding follows observation → consequence → smallest credible resolution direction. Critique the change, not its author. Do not impose a persona, praise quota, rhetorical flourish, or artificial severity.
 
+Prefer an exact replacement when it is small, validated, and confined to one contiguous location. Use the delivery medium's directly applicable format, such as a GitHub suggestion, or include the replacement snippet in Hunk or plain output. Use prose when resolution spans locations, requires surrounding edits, or depends on developer judgment.
+
 Positive evidence belongs in the risk summary only when it explains why an area is acceptable. Questions belong in findings only when their answer can change readiness.
