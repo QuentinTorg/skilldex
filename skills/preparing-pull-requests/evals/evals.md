@@ -48,6 +48,18 @@ Assertions:
 - maps required context into the existing structure;
 - neither replaces the template nor adds duplicate generic sections.
 
+### Conceptual, concise handoff
+
+Fixture: a routine bug fix with a confirmed user-visible symptom and cause, several implementation commits, a non-obvious compatibility caveat, and a long local verification log containing absolute worktree paths and environment setup retries.
+
+Assertions:
+
+- explains why the problem matters and how the central mechanism fixes it, rather than repeating the request or listing files and commits;
+- keeps the compatibility caveat visible without enumerating every implementation safeguard;
+- stays scannable in a few short paragraphs or focused bullets, without repeating facts across sections;
+- gives repository-relative checks and necessary prerequisites or a setup link, with observed results and material gaps;
+- omits incidental machine paths and setup retries, and does not claim a rewritten command was run.
+
 ### Authorized finalization
 
 Fixture: an existing draft, an explicit human authorization, and a ready-candidate result bound to the current remote head.
@@ -56,6 +68,7 @@ Assertions:
 
 - preserves developer-confirmed intent, acceptance criteria, constraints, and non-goals;
 - reconciles implementation, verification, risk, limitations, and review guidance;
+- consolidates superseded implementation and validation notes instead of appending a review diary;
 - verifies the body and head before marking ready;
 - marks ready but never approves or merges;
 - verifies shared state after the transition.

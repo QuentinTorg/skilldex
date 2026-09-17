@@ -9,6 +9,7 @@
   - The user values the rich risk, impact, testing, and reviewer guidance produced by [No Mistakes](https://github.com/kunchenguid/no-mistakes), but does not want its unbounded controller or automatic lifecycle ownership.
   - Existing Skilldex skills demonstrate the failure mode of broad triggers and bundled responsibilities: unrelated GitHub operations can activate rigid workflows or turn one task into review, fixing, issue creation, commits, and publication.
   - The approved workflow contracts require a two-stage pull-request description: the author creates the durable draft handoff, while the reviewer later enriches derived sections without changing confirmed intent.
+  - Recent descriptions were long implementation inventories but weak on motivation and conceptual explanation; validation emphasized local execution history rather than reproducible checks. The user wants short, reviewer-facing explanations that complement the code and commit history.
 
 ## 2. Trigger Conditions (Metadata)
 
@@ -31,6 +32,7 @@
 
 - **Existing templates:** Repository and organization templates control presentation. Preserve required policy sections and human-authored content instead of replacing the body wholesale.
 - **Proportional output:** A trivial documentation or comment change should not receive a large boilerplate body. Omit conditional sections that carry no material information while retaining enough intent and verification context for review.
+- **Readable handoff:** Routine descriptions should be readable in about a minute, emphasizing rationale, the central approach, and material caveats. Validation must be reproducible without copying incidental machine setup; finalization consolidates rather than accumulates prose.
 - **Existing pull request:** Detect an existing pull request for the branch before creation. Update only when the user requested the applicable mode; never create a duplicate to recover from uncertainty.
 - **Stale review:** If the head differs from the reviewed head, finalization returns to review and must not mark the pull request ready.
 - **Intent conflict:** If delivered code and confirmed intent disagree, stop for the human. The reviewer cannot make the pull request “consistent” by rewriting intent to match the implementation.
@@ -51,9 +53,9 @@
 - **`SKILL.md` (Core Instructions):** Concise mode router, common evidence authority, progressive resource routing, mutation-authorization rule, and non-negotiable scope boundaries. Mode references own lifecycle semantics; GitHub Operations owns repository preflight and shared-state verification. Target well below 500 lines.
 - **`references/draft-mode.md`:** Draft-specific context gathering, cohesive-scope check, proportional content rules, existing-PR behavior, and draft handoff requirements. Read only in draft mode.
 - **`references/finalization-mode.md`:** Ready-candidate input contract, reviewed-head validation, section authority, intent-conflict handling, reviewer enrichment, and ready transition. Read only in finalization mode.
-- **`references/template-policy.md`:** How to discover and preserve repository or organization templates, map required information into existing headings, scale content for trivial through high-risk changes, and preserve human edits.
+- **`references/template-policy.md`:** Shared writing guidance for rationale, conceptual explanation, concise presentation, reproducible validation, and consolidation; template discovery, proportionality, and preservation of human edits.
 - **`references/github-operations.md`:** Safe, idempotent Git and GitHub CLI procedures using body files rather than shell interpolation; existing-PR detection; post-mutation verification; partial-failure recovery; GitHub Enterprise considerations.
-- **`assets/pull-request-template.md`:** A concise default template with core intent, delivered-change, and verification sections plus clearly conditional risk, limitations, and human-review guidance sections.
+- **`assets/pull-request-template.md`:** A short Why / Approach / Validation default; meaningful caveats accompany the approach rather than requiring another section.
 - **`scripts/`:** None initially. GitHub CLI operations are environment-sensitive and remain inspectable agent actions. Add a script only if evaluations show repeated unsafe command construction or non-idempotent recovery.
 - **Dependency boundary:** The skill consumes a reviewer readiness result during finalization but does not load or reproduce the code-review skill. It does not depend on Hunk.
 
@@ -64,6 +66,7 @@
 - **Near Misses:** “Review PR #42,” “summarize this PR,” “check whether CI is green,” “address these review comments,” and “merge this PR” must not route to this skill.
 - **Behavior Scenario — trivial change:** A comment-only diff with no repository template produces a short draft with accurate intent and verification, omitting empty risk boilerplate.
 - **Behavior Scenario — normal bug fix:** A C++ regression fix with tests produces a draft that distinguishes confirmed intent, implementation facts, exact verification, known gaps, and preliminary risk.
+- **Behavior Scenario — conceptual handoff:** A routine fix with many commits and verbose local logs produces a scannable explanation of problem, mechanism, and caveats, plus reproducible checks without unsupported execution claims or an implementation diary.
 - **Behavior Scenario — repository template:** A repository template with mandatory policy headings is preserved and populated without replacement or duplicated sections.
 - **Behavior Scenario — finalization:** A ready-candidate review for the current head enriches risk, limitations, and human-review guidance while preserving the semantics of developer-owned intent, then marks the pull request ready only after authorization.
 - **Pressure Scenario — stale head:** The branch changes after review. Finalization refuses the ready transition and requires rereview.
